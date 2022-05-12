@@ -1,7 +1,8 @@
 *, *::before, *::after {
     box-sizing: border-box;
 } 
-body {  
+body {
+    padding-right: 5%;
     background-size: cover; 
     background-repeat: no-repeat;
     margin: 0 auto;
@@ -108,7 +109,7 @@ body {
 }
 
 .pagination {
-    width: 400px;
+    width: 200px;
     margin: auto;
     display: flex;
     gap: 5px;
@@ -132,5 +133,6 @@ body {
     background-color: rgb(196, 141, 97);
 }
 .swap {
+    margin-top: 5px;
     background-color: rgba(173, 129, 34, 0.863);
 }
