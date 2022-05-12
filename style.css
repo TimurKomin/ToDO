@@ -4,7 +4,7 @@
 body {
     padding-right: 5%;
     background-size: cover; 
-    background-repeat: no-repeat;
+    /* background-repeat: no-repeat; */
     margin: 0 auto;
     width: 100%;
     text-align: center;
@@ -13,7 +13,7 @@ body {
     font-weight: 400;
     line-height: 1.5;
     color: 222;
-    background-color: rgba(61, 34, 34, 0.774);
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     height: 800px;
@@ -50,15 +50,16 @@ body {
     font-size: 40px;
 }
 .btn-active {
+    border-radius: 12%;
     height: 30px;
     width: 80px;
-    background-color: rgba(218, 181, 19, 0.795);
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
 }
 .task {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #97770f; 
+    background-image: linear-gradient(to right, #d89eef 0%, #4830F0 51%, #bb00b2 100%);
     border: 2px solid #f0be1a;
     border-radius: 3% ;
     color: rgba(7, 22, 88, 0.774);
@@ -72,40 +73,45 @@ body {
 
 }
 .add-button {
-    background-color: peachpuff;
-    height: 30px;
+    border-radius: 12%;
+    background-image: linear-gradient(to right, #2ff7d5 0%, #98f82b 51%, #0edf54 100%);    height: 30px;
     width: 80px;
     font-size: 100%;
     margin: 1%;
     margin-right: 250px;
 }
 .todo-input {
+    border-radius: 12%;
     display: flex;
     width: 220px;
     justify-content: space-between;
     margin: 0 auto;
 }
 .btn-all {
+    border-radius: 12%;
     height: 30px;
     width: 80px;
-    background-color: rgb(199, 120, 31);
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
 }
 .btn-done {
+    border-radius: 12%;
     height: 30px;
     width: 80px;
-    background-color: rgb(223, 196, 48);
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
 }
 
 .btn-delete {
+    border-radius: 12%;
     height: 30px;
     width: 80px;
-    background-color: rgb(245, 47, 47);
+    background-image: linear-gradient(to right, #efae9e 0%, #4830F0 51%, #e63f3f 100%);
 }
 
 .button-del {
+    border-radius: 12%;
     height: 30px;
     width: 80px;
-    background-color: rgb(250, 86, 45);
+    background-image: linear-gradient(to right, #ee4242 0%, #2f17cf 51%, #f51010 100%);
 }
 
 .pagination {
@@ -125,12 +131,13 @@ body {
 }
 
 .pagination li {
+    border-radius: 12%;
     display: flex;
     height: 20px;
     width: 20px;
     justify-content: space-between;
     margin: 0 auto;
-    background-color: rgb(196, 141, 97);
+    background-image: linear-gradient(to right, #9EEFE1 0%, #30f0c0 51%, #e606ae 100%)
 }
 .swap {
     margin-top: 5px;
