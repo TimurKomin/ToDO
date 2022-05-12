@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <title> to-do </title>
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+    <h2 class="todo-caption">TO-DO</h2>
+        <div class="todo-input">
+            <input class="from-control" type="text" placeholder="New Task..">
+            <button class="btn btn-primary  button"><b> Add</b> </button>
+        </div>
+        <ul class="todo-items">
+            <li><input type="checkbox"></input> Задание 1
+                <button type="button">DELETE</button></li>
+            <li><input type="checkbox"></input> Задание 2
+                <button type="button">DELETE</button></li>
+            <li><input type="checkbox"></input> Задание 3
+                <button type="button">DELETE</button></li>
+            <li><input type="checkbox"></input> Задание 4
+                <button type="button">DELETE</button></li>
+        </ul>
+        <div class="button-filter">
+            <button class="btn-all" id="all">All 0</button>
+            <button class="btn-done" id="done">Done 0</button>
+            <button class="btn-active" id="active">Active 0</button>
+        </div>
+        <div class="container">
+            <input type="checkbox" id='checkbox'>ALL</input>
+            <button type="button" class="btn-delete">DELETE</button>
+        </div>
+        <div class="btn-group-toggle" data-toggle="buttons"></div>
+        <script src="https://cdn.jsdelivr.net/lodash/4.10.0/lodash.js"></script>
+        <script src="./app.js"></script>
+</body>
+</html>
