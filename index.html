@@ -10,20 +10,21 @@
 
 </head>
 <body>
-    <h2 class="todo-caption">TO-DO</h2>
+    <h2 class="todo-caption"> Задачи на день </h2>
         <div class="todo-input">
             <input class="from-control" type="text" placeholder="New Task..">
-            <button class="btn btn-primary  button"><b> Add</b> </button>
+            <button class="add-button"><b> Add</b> </button>
         </div>
+        <div>Sort By Date<button class="swap">&#8634;</button></div>
         <ul class="todo-items">
-            <li><input type="checkbox"></input> Задание 1
-                <button type="button">DELETE</button></li>
-            <li><input type="checkbox"></input> Задание 2
-                <button type="button">DELETE</button></li>
-            <li><input type="checkbox"></input> Задание 3
-                <button type="button">DELETE</button></li>
-            <li><input type="checkbox"></input> Задание 4
-                <button type="button">DELETE</button></li>
+            <li class="task"><input type="checkbox"></input> Задание 1
+                <button class="button-del">DELETE</button></li>
+            <li class="task"><input type="checkbox"></input> Задание 2
+                <button class="button-del">DELETE</button></li>
+            <li class="task"><input type="checkbox"></input> Задание 3
+                <button class="button-del">DELETE</button></li>
+            <li class="task"><input type="checkbox"></input> Задание 4
+                <button class="button-del">DELETE</button></li>
         </ul>
         <div class="button-filter">
             <button class="btn-all" id="all">All 0</button>
@@ -33,6 +34,17 @@
         <div class="container">
             <input type="checkbox" id='checkbox'>ALL</input>
             <button type="button" class="btn-delete">DELETE</button>
+        </div>
+        <div>
+            <ul class="pagination">
+                <li>&laquo;</li>
+                <li class="active">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>&raquo;</li>
+            </ul>
         </div>
         <div class="btn-group-toggle" data-toggle="buttons"></div>
         <script src="https://cdn.jsdelivr.net/lodash/4.10.0/lodash.js"></script>
