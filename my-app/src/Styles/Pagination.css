@@ -1,0 +1,12 @@
+.pagination {
+    list-style-type: none;
+    width: 200px;
+    margin-left: 45%;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    padding: 6px;
+    border-radius: 50px;
+    flex-grow: 1;
+    margin-top: 5px;
+}

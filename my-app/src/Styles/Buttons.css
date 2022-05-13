@@ -1,0 +1,16 @@
+.buttons {
+    border-radius: 12%;
+    width: 220px;
+    justify-content: space-between;
+    margin: 0 auto; 
+}
+.sort-btn {
+    display: flex;
+}
+.check-del{
+    border-radius: 12%;
+    width: 220px;
+    justify-content: space-between;
+    margin: 0 auto;
+    display: flex;
+}

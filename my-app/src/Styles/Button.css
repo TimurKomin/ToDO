@@ -1,0 +1,37 @@
+.btn-active {
+    border-radius: 12%;
+    height: 30px;
+    width: 80px;
+    background-image: linear-gradient(to right, #28dba5 0%, #4830F0 51%, #9EEFE1 100%);
+}
+
+.btn-done {
+    border-radius: 12%;
+    height: 30px;
+    width: 80px;
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+}
+
+.btn-all {
+    border-radius: 12%;
+    height: 30px;
+    width: 80px;
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+}
+
+.btn-delete{
+    border-radius: 12%;
+    height: 30px;
+    width: 80px;
+    background-image: linear-gradient(to right, #ff5816 0%, #4830F0 51%, #e63f3f 100%);
+}
+
+.btn-add {
+    border-radius: 12%;
+    background-image: linear-gradient(to right, #f4f72f 0%, #98f82b 51%, #0edf54 100%);  
+    height: 30px;
+    width: 80px;
+    font-size: 100%;
+    margin: 0 auto;
+    /* margin-right: 250px; */
+}
