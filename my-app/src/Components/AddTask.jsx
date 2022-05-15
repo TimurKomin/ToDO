@@ -13,14 +13,14 @@ const [value, setValue] = useState('')
 // const [posts, setPosts] = useState({name:'', date:'',})    
 return(
     <div className='add-task'> 
-        <input 
+        <input  className='from-control' placeholder='New Task..'
         type='text'
         value = {value}
         onChange={event => setValue(event.target.value)}
         />
         <Button body={'Add'} classStyle={'btn-add'} onClick={taskCraete}/>
         <ul>
-        <div>Sort By Date<button className="swap">&#8634;</button></div>
+        <div>Sort By Date<Button body={'SWAP'} classStyle={'btn-swap'}/></div>
         </ul>
     </div>
 )

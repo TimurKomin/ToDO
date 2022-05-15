@@ -1,7 +1,6 @@
 .pagination {
+    justify-content: center;
     list-style-type: none;
-    width: 200px;
-    margin-left: 45%;
     display: flex;
     gap: 5px;
     flex-wrap: wrap;
@@ -9,4 +8,68 @@
     border-radius: 50px;
     flex-grow: 1;
     margin-top: 5px;
+}
+
+.block-pagin {
+    justify-content: center;
+}
+
+.pagins {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    padding: 10px 10px;
+    margin: 20px 10px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+    background-size: 200% auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    transition: .5s;
+    }
+.pagins:hover {
+    background-position: right center;
+}
+
+.pagins-l {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    padding: 15px 20px;
+    margin: 15px 20px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+    background-size: 200% auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    transition: .5s;
+    
+}
+
+.pagins-l:hover {
+    background-position: right center;
+}
+
+.pagins-r {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    padding: 15px 20px;
+    margin: 15px 20px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+    background-size: 200% auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    transition: .5s;
+}
+
+.pagins-r:hover {
+    background-position: right center;
 }

@@ -1,16 +1,17 @@
 import React,{useState} from 'react';
 import "../Styles/Pagination.css"
+import Button from './ Button';
 const Pagination = () => {    
 return(
-    <div> 
+    <div className='block-pagin'>
         <ul className='pagination'>
-        <li>&laquo;</li>
-                <li className="active">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>&raquo;</li>
+                <Button body={'<<'} classStyle={'pagins-l'}/>
+                <Button body={'1'} classStyle={'pagins'}/>
+                <Button body={'2'} classStyle={'pagins'}/>
+                <Button body={'3'} classStyle={'pagins'}/>
+                <Button body={'4'} classStyle={'pagins'}/>
+                <Button body={'5'} classStyle={'pagins'}/>
+                <Button body={'>>'} classStyle={'pagins-r'}/>
         </ul>
     </div>
 )

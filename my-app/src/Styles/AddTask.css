@@ -1,6 +1,12 @@
 .add-task{
     border-radius: 12%;
-    width: 220px;
-    justify-content: space-between;
+    width: 350px;
+    justify-content: center;
     margin: 0 auto;
+}
+
+.from-control {
+    border-radius: 10px;
+    height: 30px;
+    width: 250px;
 }
