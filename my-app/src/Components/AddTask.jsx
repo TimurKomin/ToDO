@@ -1,26 +1,44 @@
 import React,{useState} from 'react';
+import ReactDOM from 'react-dom';
 import Button from './ Button';
 import '../Styles/Button.css'
 import '../Styles/AddTask.css'
-const AddTask = () => {
-    const tasks = [];
-    const taskCraete = () => {
-    tasks.push(`<li><checkbox></checkbox>${value}<button></button></li>`)
-    console.log(tasks)  
-    }
-const [value, setValue] = useState('')      
+import InputTodo from './InputTodo';
+import TodoItems from './TodoItems';
+import Todos from './Todos';
+const AddTask = ({todos, setTodos}) => {
+    let [tasks, setValue] = useState('')
+    const getValue = (e) => {
+            setValue(e.target.value)
+    }  
 
-// const [posts, setPosts] = useState({name:'', date:'',})    
+    const taskCraete = () => {
+        if(tasks.trim()){
+        const newTask = {
+            id: Date.now(),
+            body: tasks,
+        }
+    setTodos([...todos, newTask]) 
+        }
+    }
+
+    const SortByDate = () => {
+           const rev = todos.reverse() 
+           todos = rev
+           console.log(rev)
+           useState[0]=rev
+             
+    }
+
 return(
-    <div className='add-task'> 
-        <input  className='from-control' placeholder='New Task..'
-        type='text'
-        value = {value}
-        onChange={event => setValue(event.target.value)}
+    <div className='add-task' > 
+        <InputTodo  type={'text'} placeholder={'New Task..'} classStyle={'from-control'} 
+        defaultValue={tasks}
+        callback={getValue}
         />
-        <Button body={'Add'} classStyle={'btn-add'} onClick={taskCraete}/>
+        <Button body={'Add'} classStyle={'btn-add'} callback={taskCraete}/>
         <ul>
-        <div>Sort By Date<Button body={'SWAP'} classStyle={'btn-swap'}/></div>
+        <div className='block-sort'>Sort By Date<Button body={'SWAP'} callback={SortByDate} classStyle={'btn-swap'}/></div>
         </ul>
     </div>
 )

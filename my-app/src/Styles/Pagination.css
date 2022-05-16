@@ -19,7 +19,7 @@
     display: inline-block;
     color: white;
     padding: 10px 10px;
-    margin: 20px 10px;
+    margin: 20px 1px;
     border-radius: 5px;
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
@@ -37,8 +37,8 @@
     text-decoration: none;
     display: inline-block;
     color: white;
-    padding: 15px 20px;
-    margin: 15px 20px;
+    padding: 15px 10px;
+    margin: 15px 10px;
     border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
@@ -58,8 +58,8 @@
     text-decoration: none;
     display: inline-block;
     color: white;
-    padding: 15px 20px;
-    margin: 15px 20px;
+    padding: 15px 10px;
+    margin: 15px 10px;
     border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
     text-transform: uppercase;
