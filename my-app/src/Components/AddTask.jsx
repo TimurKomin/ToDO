@@ -1,42 +1,24 @@
 import React,{useState} from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM, { render } from 'react-dom';
 import Button from './ Button';
 import '../Styles/Button.css'
 import '../Styles/AddTask.css'
 import InputTodo from './InputTodo';
 import TodoItems from './TodoItems';
 import Todos from './Todos';
-const AddTask = ({todos, setTodos}) => {
-    let [tasks, setValue] = useState('')
-    const getValue = (e) => {
-            setValue(e.target.value)
-    }  
+const AddTask = ({todos, setTodos, addTodoHandler, inputValue, tasks, getValue, SortByDate, setInputValue }) => {
 
-    const taskCraete = () => {
-        if(tasks.trim()){
-        const newTask = {
-            id: Date.now(),
-            body: tasks,
-        }
-    setTodos([...todos, newTask]) 
-        }
+    const keyAdd = (e) => {
+        if(e.key === 'Enter'){
+        addTodoHandler()
     }
-
-    const SortByDate = () => {
-           const rev = todos.reverse() 
-           todos = rev
-           console.log(rev)
-           useState[0]=rev
-             
     }
-
 return(
     <div className='add-task' > 
-        <InputTodo  type={'text'} placeholder={'New Task..'} classStyle={'from-control'} 
-        defaultValue={tasks}
+        <InputTodo onKeyDown={keyAdd} type={'text'}  value={inputValue} placeholder={'New Task..'} classStyle={'from-control'} 
         callback={getValue}
         />
-        <Button body={'Add'} classStyle={'btn-add'} callback={taskCraete}/>
+        <Button body={'Add'} classStyle={'btn-add'} callback={addTodoHandler}/>
         <ul>
         <div className='block-sort'>Sort By Date<Button body={'SWAP'} callback={SortByDate} classStyle={'btn-swap'}/></div>
         </ul>
