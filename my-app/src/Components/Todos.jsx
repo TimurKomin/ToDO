@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 
 import AddTask from "./AddTask";
 import Buttons from "./Buttons"
@@ -9,8 +9,10 @@ import TodoItems from "./TodoItems";
 
 const Todos = () => {
     const [todos, setTodos] = useState([])
-
+    const [check, setCheck] = useState(false)
     const [inputValue, setInputValue] = useState('')
+    const [filter, setFilter] = useState('')
+
 
     const taskCraete = () => {
         if(inputValue.trim()){
@@ -35,9 +37,8 @@ const Todos = () => {
         taskCraete()
         setInputValue('')
     }
-    const SortByDate = () => {
-        // const rev = (arr) => arr.reverse()
-        setTodos(...todos.reverse())
+    const sortByDate = () => {
+        setTodos([...todos.reverse()])
         console.log(todos)
     }
 
@@ -48,6 +49,36 @@ const Todos = () => {
         
     }
 
+    const checkAll = (e) => {
+        setCheck(!check)
+        setTodos(todos.map((item) => {
+                return  {...item, status: !item.status}
+        }))       
+    }
+
+    const checkTask = (id) => { 
+        setTodos(todos.map((item) => {
+            if(item.id === id){
+            return  {...item, status: !item.status}
+            }else{
+                return item
+            }
+    }))       
+}
+
+const deleteCheck = () => {
+    setTodos([...todos.filter((item) => item.status === false)])
+}
+
+const filterTasks = (e) =>{
+    if(e.target.className === 'btn-active') {
+        setFilter(false)
+    }else if (e.target.className === 'btn-done') {
+        setFilter(true)  
+    }else if (e.target.className === 'btn-all'){
+        setFilter('')
+    }
+}
 
     return (
         <div id='Todos'>
@@ -57,19 +88,27 @@ const Todos = () => {
                 setTodos={setTodos}
                 inputValue={inputValue}
                 getValue={getValue}
-                SortByDate={SortByDate}
+                sortByDate={sortByDate}
                 setInputValue={setInputValue}
             />
             <ul className="todo-items"> 
-                { todos.map(todo => {
+                { todos.filter((item) => filter === '' ? true: item.status === filter).map(todo => {
                     return <TodoItems 
+                    checkTask={checkTask}
+                    check={check}
+                    setCheck={setCheck}
                     key={todo.id} 
                     todo={todo} 
                     deleteTasks={deleteTasks}
                     />
                 })}
             </ul>
-            <Buttons 
+            <Buttons
+            filterTasks={filterTasks}
+            deleteCheck={deleteCheck}
+            checkAll={checkAll}
+            check={check}
+            setCheck={setCheck}
             todos={todos}
             deleteTasks={deleteTasks}
             />

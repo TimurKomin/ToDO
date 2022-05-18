@@ -3,12 +3,11 @@ import Button from "./ Button";
 import InputTodo from "./InputTodo";
 import { useState } from "react";
 
-const TodoItems = ({todo, type, body, deleteTasks }) => {
+const TodoItems = ({todo, type, body, deleteTasks, checkTask, check }) => {
 
-    const [Checked, setChecked] = useState(todo.status)
 
 return(
-<li><InputTodo  todo={todo.id} defaultChecked={todo.status} type={'checkbox'}/>{todo.body}
+<li><InputTodo checked={todo.status} todo={todo.id} callback={() => checkTask(todo.id)} type={'checkbox'} />{todo.body}
 <Button body={'DELETE'} classStyle={'btn-del'} callback={() => deleteTasks(todo.id)}/></li>
 );
 }
