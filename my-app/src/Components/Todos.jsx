@@ -80,6 +80,12 @@ const filterTasks = (e) =>{
     }
 }
 
+
+const filterRender = () => {
+    const ver =  todos.filter((item) => filter === '' ? true: item.status === filter)
+    return ver
+}
+console.log(filterRender())
     return (
         <div id='Todos'>
             <AddTask
@@ -92,7 +98,7 @@ const filterTasks = (e) =>{
                 setInputValue={setInputValue}
             />
             <ul className="todo-items"> 
-                { todos.filter((item) => filter === '' ? true: item.status === filter).map(todo => {
+                { filterRender().map(todo => {
                     return <TodoItems 
                     checkTask={checkTask}
                     check={check}
