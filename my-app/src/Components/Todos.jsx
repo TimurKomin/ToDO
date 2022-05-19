@@ -6,13 +6,17 @@ import Pagination from "./Pagination";
 import '../Styles/Todos.css'
 import Button from "./ Button";
 import TodoItems from "./TodoItems";
+import InputTodo from "./InputTodo";
 
 const Todos = () => {
     const [todos, setTodos] = useState([])
     const [check, setCheck] = useState(false)
     const [inputValue, setInputValue] = useState('')
     const [filter, setFilter] = useState('')
-
+    const [buttonPaging, setButtonPagin] = useState(null)
+    // const [inputCreate, setInputCreate] = useState(true)
+    const [arrayPagin, setArrayPagin] = useState([])
+    const [pagesCurrent, setPagesCurrent] = useState(1)
 
     const taskCraete = () => {
         if(inputValue.trim()){
@@ -23,6 +27,7 @@ const Todos = () => {
         }
         setTodos([...todos, newTask])  
         }
+        
     }
 
     const getValue = (e) => {
@@ -36,6 +41,7 @@ const Todos = () => {
     const addTodoHandler = () => {
         taskCraete()
         setInputValue('')
+        buttonPage()
     }
     const sortByDate = () => {
         setTodos([...todos.reverse()])
@@ -49,7 +55,7 @@ const Todos = () => {
         
     }
 
-    const checkAll = (e) => {
+    const checkAll = () => {
         setCheck(!check)
         setTodos(todos.map((item) => {
                 return  {...item, status: !item.status}
@@ -85,7 +91,34 @@ const filterRender = () => {
     const ver =  todos.filter((item) => filter === '' ? true: item.status === filter)
     return ver
 }
-console.log(filterRender())
+
+
+const buttonPage = () => {
+    if(Math.ceil(todos.length%5) == 0){
+        const newPage = {
+        body: Math.ceil(1+todos.length/5)
+        }
+        setArrayPagin([...arrayPagin, newPage])
+        
+    }
+    console.log(arrayPagin)
+}
+
+const selectPage = (e) => {
+    console.log(pagesCurrent)
+    setPagesCurrent(Number(e.target.id))
+    
+}
+
+const pageCurrent = () => {
+const start = (pagesCurrent - 1) * 5
+const end = start + 5
+const page = filterRender().slice(start, end)
+console.log(page)
+return page
+}
+
+
     return (
         <div id='Todos'>
             <AddTask
@@ -98,8 +131,8 @@ console.log(filterRender())
                 setInputValue={setInputValue}
             />
             <ul className="todo-items"> 
-                { filterRender().map(todo => {
-                    return <TodoItems 
+                { pageCurrent().map(todo => {
+                    return <TodoItems
                     checkTask={checkTask}
                     check={check}
                     setCheck={setCheck}
@@ -118,7 +151,20 @@ console.log(filterRender())
             todos={todos}
             deleteTasks={deleteTasks}
             />
-            <Pagination/>
+            <div className="block-pagin"><ul className="pagination"></ul>
+            <Button body={'<<'} classStyle={'pagins-l'}/>
+                {arrayPagin.map(item => {
+                    return <Button item={item} callback={selectPage} classStyle='pagins' id={item.body} body={item.body} key={item.body}></Button>
+                })}
+                <Button body={'>>'} classStyle={'pagins-r'}/>
+            </div>
+            <Pagination
+            setButtonPagin={setButtonPagin}
+            button={buttonPaging}
+            buttonPage={buttonPage}
+            todos={todos}
+            setTodos={setTodos}
+            />
         </div>
     );
     
