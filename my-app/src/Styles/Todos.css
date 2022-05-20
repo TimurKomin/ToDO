@@ -25,3 +25,13 @@
         word-break: break-word;
         opacity: 0.8;
     }
+
+    .input-li{
+        max-width: 130px;
+    }
+    span {
+        /* min-width: 50px;
+        min-height: 30px;
+        border-radius: 3px;
+         */
+    }

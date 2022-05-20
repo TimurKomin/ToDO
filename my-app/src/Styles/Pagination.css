@@ -37,7 +37,7 @@
     text-decoration: none;
     display: inline-block;
     color: white;
-    padding: 15px 10px;
+    padding: 3px 3px;
     margin: 15px 10px;
     border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
@@ -58,7 +58,7 @@
     text-decoration: none;
     display: inline-block;
     color: white;
-    padding: 15px 10px;
+    padding: 3px 3px;
     margin: 15px 10px;
     border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
@@ -71,5 +71,50 @@
 }
 
 .pagins-r:hover {
+    background-position: center right ;
+}
+
+button {
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    padding: 8px 8px;
+    margin: 5px 5px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-image: linear-gradient(to right, #9EEFE1 0%, #4830F0 51%, #9EEFE1 100%);
+    background-size: 200% auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    transition: .5s;
+    }
+
+
+
+button:hover {
     background-position: right center;
 }
+
+.button-active{
+    width: 40px;
+    height: 40px;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    margin: 8px 7px;
+    border-radius: 5px;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-image: linear-gradient(to right, #e89eef 0%, #4830F0 51%, #ef9ee8 100%);
+    background-size: 200% auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+    transition: .5s;
+
+    }
+    .container-pag{
+        display: flex;
+        justify-content: space-between;
+        height: 200px;
+    }
