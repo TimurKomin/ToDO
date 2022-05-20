@@ -35,6 +35,11 @@ const saveSpan = (e) => {
     }
 }
 
+const saveOnFocus = () => {
+    todo.body = inputItemValue
+    setInputCreate(!inputCreate)
+}
+
 return (
     <li id={todo.id}>
     <InputTodo
@@ -49,7 +54,7 @@ return (
         {todo.body}{" "}
         </span>
     ) : (
-        <input value={inputItemValue} onChange={saveTask} onKeyDown={saveSpan}
+        <input value={inputItemValue} onBlur={saveOnFocus} onChange={saveTask} onKeyDown={saveSpan}
         />
     )}
     <Button
