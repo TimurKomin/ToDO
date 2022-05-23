@@ -53,6 +53,7 @@
     .input-li{
     }
     .todo-items span {
+        font-size: x-large;
         scrollbar-color: violet;
         justify-content: space-between;
         height: 90%;
