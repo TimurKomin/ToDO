@@ -5,7 +5,7 @@ import "../Styles/Button.css"
 const Pagination = ({ buttonPage, selectPage, pagesCurrent, setPagesCurrent, filterRender, classStyle }) => {
     return (
     <div className="block-pagin">
-        <Button body={'Begining'} callback={() => setPagesCurrent(pagesCurrent => 1) }/>
+        <Button body={'Begining'} callback={() => setPagesCurrent(pagesCurrent => 0) }/>
         <Button body={"<<"} callback={() => pagesCurrent >= 1 ? setPagesCurrent(pagesCurrent - 1) : false} classStyle={"pagins-l"} />
         
         {[...Array(buttonPage()).keys()].map((item) => {
