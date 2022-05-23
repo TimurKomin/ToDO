@@ -1,6 +1,6 @@
 .add-task{
     border-radius: 12%;
-    width: 350px;
+    width: 60%;
     justify-content: center;
     margin: 0 auto;
 }
@@ -12,6 +12,6 @@
 }
 .block-sort {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }

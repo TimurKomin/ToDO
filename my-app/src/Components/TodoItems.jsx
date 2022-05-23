@@ -8,7 +8,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask }) => {
     const [inputItemValue, setInputItemValue] = useState("");
 
     const openInput = () => {
-    setInputCreate(!inputCreate);
+    setInputCreate(prev => !prev);
     rewrite();
     };
     const rewrite = () => {
@@ -50,6 +50,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask }) => {
         </span>
         ) : (
         <input
+            autoFocus
             className="input-li"
             value={inputItemValue}
             onBlur={saveOnFocus}
@@ -58,7 +59,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask }) => {
         />
         )}
         <Button
-        body={"DELETE"}
+        body={"DEL"}
         classStyle={"btn-del"}
         callback={() => deleteTasks(todo.id)}
         />

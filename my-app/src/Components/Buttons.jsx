@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import Button from "./ Button";
 import "../Styles/Button.css";
 import InputTodo from "./InputTodo";
-const Buttons = ({ check, checkAll, deleteCheck, filterTasks }) => {
+const Buttons = ({ check, checkAll, deleteCheck, filterTasks, todos, filter, setFilter }) => {
     return (
     <div className="buttons">
         <div className="check-del">
-        <InputTodo type={"checkbox"} callback={checkAll} checked={check} />
+        <InputTodo type={"checkbox"} classStyle={'check-all'} callback={checkAll} checked={todos.every((item) => item.status === true)} />
         <p>Check All</p>
         <Button
             callback={deleteCheck}
@@ -18,10 +18,10 @@ const Buttons = ({ check, checkAll, deleteCheck, filterTasks }) => {
         <Button
             body={"Active"}
             callback={filterTasks}
-            classStyle={"btn-active"}
+            classStyle={filter === false ? 'button-active' : "btn-active"}
         />
-        <Button body={"Done"} callback={filterTasks} classStyle={"btn-done"} />
-        <Button body={"All"} callback={filterTasks} classStyle={"btn-all"} />
+        <Button body={"Done"} callback={filterTasks}  classStyle={filter === true ? 'button-active' : "btn-done"} />
+        <Button body={"All"} callback={filterTasks}  classStyle={filter === '' ? 'button-active' : "btn-all"} />
         </div>
     </div>
     );

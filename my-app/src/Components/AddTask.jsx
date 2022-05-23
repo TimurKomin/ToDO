@@ -20,12 +20,10 @@ const AddTask = ({ addTodoHandler, inputValue, getValue, sortByDate }) => {
         callback={getValue}
         />
         <Button body={"Add"} classStyle={"btn-add"} callback={addTodoHandler} />
-        <ul>
         <div className="block-sort">
             Sort By Date
             <Button body={"SWAP"} callback={sortByDate} classStyle={"btn-swap"} />
         </div>
-        </ul>
     </div>
     );
 };

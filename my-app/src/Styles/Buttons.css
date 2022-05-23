@@ -22,3 +22,22 @@
     color: rgb(243, 194, 186);
     font-family: 'Montserrat', sans-serif;
 }
+
+.check-all {
+margin-top: 30px;
+-webkit-appearance: none;
+-moz-appearance: none;
+display: inline-block;
+width: 64px;
+height: 64px;
+padding: 0;
+vertical-align: top;
+outline: none;
+transition: background 0.3s ease;
+background: url(unChecked32.png) 0 0 no-repeat;
+cursor: pointer;
+}
+
+.check-all:checked{
+    background-image: url(checked32.png);
+}

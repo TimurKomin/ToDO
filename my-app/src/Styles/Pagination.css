@@ -75,10 +75,11 @@
 }
 
 button {
+    text-align: center;
     text-decoration: none;
     display: inline-block;
     color: white;
-    padding: 8px 8px;
+    padding: 5px 5px;
     margin: 5px 5px;
     border-radius: 5px;
     font-family: 'Montserrat', sans-serif;
@@ -96,7 +97,7 @@ button:hover {
     background-position: right center;
 }
 
-.button-active{
+.button-pgn-active{
     width: 40px;
     height: 40px;
     text-decoration: none;
@@ -110,7 +111,7 @@ button:hover {
     background-image: linear-gradient(to right, #e89eef 0%, #4830F0 51%, #ef9ee8 100%);
     background-size: 200% auto;
     box-shadow: 0 0 20px rgba(0, 0, 0, .1);
-    transition: .5s;
+    transition: .5s; 
 
     }
     .container-pag{

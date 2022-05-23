@@ -11,7 +11,7 @@ const Todos = () => {
     const [inputValue, setInputValue] = useState("");
     const [filter, setFilter] = useState("");
     const [pagesCurrent, setPagesCurrent] = useState(0);
-    const [arrayRender, setArrayRende] = []
+    const [arrayRender, setArrayRende] = [];
     const taskCraete = () => {
     if (inputValue.trim()) {
         const newTask = {
@@ -37,7 +37,7 @@ const Todos = () => {
     setInputValue("");
     buttonPage();
     };
-    const sortByDate = () => {
+        const sortByDate = () => {
     setTodos([...todos.reverse()]);
     };
 
@@ -45,7 +45,7 @@ const Todos = () => {
     setCheck(!check);
     setTodos(
         todos.map((item) => {
-        return { ...item, status: !item.status };
+        return { ...item, status: check };
         })
     );
     };
@@ -86,8 +86,8 @@ const Todos = () => {
     const start = pagesCurrent * 5;
     const end = start + 5;
     const page = filterRender().slice(start, end);
+
     return page;
-    
     };
 
     const deleteTasks = (id) => {
@@ -99,7 +99,9 @@ const Todos = () => {
 
     const checkTask = (id) => {
     if (pageCurrent().length === 1) {
+        if (pagesCurrent > 0) {
         setPagesCurrent(pagesCurrent - 1);
+        }
     }
     setTodos(
         todos.map((item) => {
@@ -111,6 +113,11 @@ const Todos = () => {
         })
     );
     };
+
+    const checker = () => {
+    setCheck(todos.every((item) => item.status === true));
+    };
+
     return (
     <div id="Todos">
         <AddTask
@@ -126,6 +133,7 @@ const Todos = () => {
         {pageCurrent().map((todo) => {
             return (
             <TodoItems
+                todos={todos}
                 checkTask={checkTask}
                 check={check}
                 setCheck={setCheck}
@@ -137,6 +145,8 @@ const Todos = () => {
         })}
         </ul>
         <Buttons
+        filter={filter}
+        setFilter={setFilter}
         filterTasks={filterTasks}
         deleteCheck={deleteCheck}
         checkAll={checkAll}
