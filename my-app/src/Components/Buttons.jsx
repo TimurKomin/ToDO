@@ -6,7 +6,7 @@ const Buttons = ({ check, checkAll, deleteCheck, filterTasks, todos, filter, set
     return (
     <div className="buttons">
         <div className="check-del">
-        <InputTodo type={"checkbox"} classStyle={'check-all'} callback={checkAll} checked={todos.every((item) => item.status === true)} />
+        <InputTodo type={"checkbox"} classStyle={'check-all'} callback={checkAll} checked={todos.every((item) => item.done === true)} />
         <p>Check All</p>
         <Button
             callback={deleteCheck}

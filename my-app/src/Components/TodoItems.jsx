@@ -6,13 +6,13 @@ import { useState } from "react";
 const TodoItems = ({ todo, deleteTasks, checkTask }) => {
     const [inputCreate, setInputCreate] = useState(true);
     const [inputItemValue, setInputItemValue] = useState("");
-
+console.log("todo", todo);
     const openInput = () => {
     setInputCreate(prev => !prev);
     rewrite();
     };
     const rewrite = () => {
-    let valueItem = todo.body;
+    let valueItem = todo.name;
     setInputItemValue(valueItem);
     return valueItem;
     };
@@ -24,7 +24,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask }) => {
     const saveSpan = (e) => {
     if (e.key === "Enter") {
         if(e.target.value){
-        todo.body = inputItemValue;
+        todo.name = inputItemValue;
         }
         setInputCreate(!inputCreate);
         
@@ -35,24 +35,24 @@ const TodoItems = ({ todo, deleteTasks, checkTask }) => {
 
     const saveOnFocus = () => {
     if(inputItemValue){
-    todo.body = inputItemValue;
+    todo.name = inputItemValue;
     }
     setInputCreate(!inputCreate);
     
     };
 
     return (
-    <li id={todo.id}>
+    <li id={todo.uuid}>
         <InputTodo
-        checked={todo.status}
-        todo={todo.id}
-        callback={() => checkTask(todo.id)}
+        checked={todo.done}
+        todo={todo}
+        callback={(e) => checkTask(e, todo.uuid)}
         type={"checkbox"}
         />
         {inputCreate === true ? (
-        <span onDoubleClick={openInput} id={todo.id}>
+        <span onDoubleClick={openInput} id={todo.uuid}>
             {" "}
-            {todo.body}{" "}
+            {todo.name}{" "}
         </span>
         ) : (
         <input
@@ -67,7 +67,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask }) => {
         <Button
         body={"DEL"}
         classStyle={"btn-del"}
-        callback={() => deleteTasks(todo.id)}
+        callback={() => deleteTasks(todo.uuid)}
         />
     </li>
     );
