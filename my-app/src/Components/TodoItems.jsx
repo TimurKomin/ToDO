@@ -23,16 +23,22 @@ const TodoItems = ({ todo, deleteTasks, checkTask }) => {
 
     const saveSpan = (e) => {
     if (e.key === "Enter") {
+        if(e.target.value){
         todo.body = inputItemValue;
+        }
         setInputCreate(!inputCreate);
+        
     } else if (e.key === "Escape") {
         setInputCreate(!inputCreate);
     }
     };
 
     const saveOnFocus = () => {
+    if(inputItemValue){
     todo.body = inputItemValue;
+    }
     setInputCreate(!inputCreate);
+    
     };
 
     return (
