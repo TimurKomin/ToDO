@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import "../Styles/Pagination.css";
 import Button from "./ Button";
 import "../Styles/Button.css"
-const Pagination = ({ buttonPage, selectPage, pagesCurrent, setPagesCurrent, filterRender, classStyle }) => {
+const Pagination = ({ buttonPage, selectPage, pagesCurrent, setPagesCurrent, filterRender, classStyle, pagination }) => {
     return (
     <div className="block-pagin">
         <Button body={'Begining'} callback={() => setPagesCurrent(pagesCurrent => 0) }/>
         <Button body={"<<"} callback={() => pagesCurrent >= 1 ? setPagesCurrent(pagesCurrent - 1) : false} classStyle={"pagins-l"} />
         
-        {[...Array(buttonPage()).keys()].map((item) => {
+        {[...Array(pagination).keys()].map((item) => {
         return (
             <Button
             item={item}
@@ -22,7 +22,7 @@ const Pagination = ({ buttonPage, selectPage, pagesCurrent, setPagesCurrent, fil
         })}
         
         <Button body={">>"} callback={() => pagesCurrent < (Number(filterRender.length)/5) - 1 ? setPagesCurrent(pagesCurrent + 1) : false} classStyle={"pagins-r"} />
-        <Button body={'In The End'} callback={() => setPagesCurrent(pagesCurrent => buttonPage() - 1) }/>
+        <Button body={'In The End'} callback={() => setPagesCurrent(pagesCurrent => pagesCurrent = buttonPage() - 1) }/>
     </div>
     );
 };

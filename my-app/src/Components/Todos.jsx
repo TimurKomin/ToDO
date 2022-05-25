@@ -14,18 +14,42 @@ const Todos = () => {
     const [pagesCurrent, setPagesCurrent] = useState(0);
     const [filterServ, setFilterServ] = useState('')
     const [sortServ, setSortServ] = useState('asc')
+    const [pagination, setPagination] = useState(0)
     console.log(todos)
 
+    const selectPage = (e) => {
+        console.log(e.target.id)
+    setPagesCurrent(Number(e.target.id));
+    console.log(pagesCurrent)
+
+    };
     const getTodos = async () => {
         try {
-            const response = await  http.get(`/tasks/6?page${pagesCurrent+1}&order=${sortServ}&pp=20&filterBy=${filterServ}`)
+            console.log(pagesCurrent)
+            const response = await  http.get(`/tasks/6?page=${pagesCurrent+1}&order=${sortServ}&pp=5&filterBy=${filterServ}`)
             console.log('res', response);
             setTodos(todos => todos = response.data.tasks)
+            console.log(pagesCurrent)
         } catch (err) {
             console.log(err);
         }
 }
 
+
+    const paginationApi = async () => {
+
+        try {
+            const resp = await http.get(`/tasks/6`)
+            console.log(resp)
+            setPagination(Math.ceil(resp.data.count/5))
+            
+            
+        } catch (error) {
+            console.log(error)
+            
+        }
+    } 
+    
     const postTodos = async (obj) => {
             
             try { 
@@ -34,6 +58,7 @@ const Todos = () => {
             } catch (err) { 
                 console.error(err, 1); 
                 } 
+                getTodos()
             }; 
 
     const patchPost = async (e, uuid) => {
@@ -45,6 +70,7 @@ const Todos = () => {
         } catch (err) {
             console.log(err)
         }
+        getTodos()
     }
     
     const patchChangeTask = async (e, uuid) =>  {
@@ -69,8 +95,8 @@ const Todos = () => {
         }
     } 
 
-    useEffect(() => {getTodos()}, [filter])
-    
+    useEffect(() => {getTodos()}, [filter, pagesCurrent, filterServ, ])
+    useEffect(() => {paginationApi()}, [todos])
 
     const taskCraete = () => {
     if (inputValue.trim()) {
@@ -82,7 +108,7 @@ const Todos = () => {
         setTodos([...todos, newTask]);
         
     }
-    if (pageCurrent().length === 5) {
+    if (pageCurrent().length === 4) {
         setPagesCurrent(pagesCurrent + 1);
     }
     };
@@ -147,10 +173,18 @@ const Todos = () => {
     getTodos()
     };
 
-    const filterTasks = (e) => {
+    const filterTasks = async (e) => {
     if (e.target.className === "btn-active") {
         setFilter(false);
         setFilterServ('undone')
+        try { 
+            const resp = await http.get(`/tasks/6`)
+            console.log(resp.data.tasks)
+        }catch(err){
+            console.log(err)
+        }
+
+        
         setPagesCurrent(pagesCurrent - pagesCurrent);
     } else if (e.target.className === "btn-done") {
         setFilter(true);
@@ -176,14 +210,13 @@ const Todos = () => {
     
     };
     
-    const selectPage = (e) => {
-    setPagesCurrent(Number(e.target.id));
-    };
+    
 
     const pageCurrent = () => {
     const start = pagesCurrent * 5;
     const end = start + 5;
-    const page = filterRender().slice(start, end);
+    const page = todos.slice(start, end);
+    console.log(page)
 
     return page;
     };
@@ -235,7 +268,7 @@ const Todos = () => {
         sortServ={sortServ}
         />
         <ul className="todo-items">
-        {pageCurrent().map((todo) => {
+        {todos.map((todo) => {
             return (
             <TodoItems
                 patchChangeTask={patchChangeTask}
@@ -263,6 +296,9 @@ const Todos = () => {
         deleteTasks={deleteTasks}
         />
         <Pagination
+        getTodos={getTodos}
+        pagination={pagination}
+        setPagination={setPagination}
         filterRender={filterRender()}
         pagesCurrent={pagesCurrent}
         setPagesCurrent={setPagesCurrent}
