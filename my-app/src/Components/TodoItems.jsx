@@ -3,10 +3,9 @@ import Button from "./ Button";
 import InputTodo from "./InputTodo";
 import { useState } from "react";
 
-const TodoItems = ({ todo, deleteTasks, checkTask }) => {
+const TodoItems = ({ todo, deleteTasks, checkTask, patchChangeTask }) => {
     const [inputCreate, setInputCreate] = useState(true);
     const [inputItemValue, setInputItemValue] = useState("");
-console.log("todo", todo);
     const openInput = () => {
     setInputCreate(prev => !prev);
     rewrite();
@@ -17,28 +16,31 @@ console.log("todo", todo);
     return valueItem;
     };
 
-    const saveTask = (e) => {
+    const saveTask = (e, uuid) => {
+        // patchChangeTask(e, uuid)
     setInputItemValue(e.target.value);
     };
 
-    const saveSpan = (e) => {
+    const saveSpan = (e, uuid) => {
     if (e.key === "Enter") {
         if(e.target.value){
         todo.name = inputItemValue;
+        
         }
         setInputCreate(!inputCreate);
-        
+        patchChangeTask(e, uuid)
     } else if (e.key === "Escape") {
         setInputCreate(!inputCreate);
     }
     };
 
-    const saveOnFocus = () => {
+    const saveOnFocus = (e, uuid) => {
     if(inputItemValue){
-    todo.name = inputItemValue;
+        todo.name = inputItemValue;
+         
     }
     setInputCreate(!inputCreate);
-    
+    patchChangeTask(e, uuid)
     };
 
     return (
@@ -59,15 +61,15 @@ console.log("todo", todo);
             autoFocus
             className="input-li"
             value={inputItemValue}
-            onBlur={saveOnFocus}
-            onChange={saveTask}
-            onKeyDown={saveSpan}
+            onBlur={(e) => saveOnFocus(e, todo.uuid)}
+            onChange={(e) => saveTask(e, todo.uuid)}
+            onKeyDown={(e) => saveSpan(e, todo.uuid)}
         />
         )}
         <Button
         body={"DEL"}
         classStyle={"btn-del"}
-        callback={() => deleteTasks(todo.uuid)}
+        callback={() => deleteTasks(todo.name, todo.uuid)}
         />
     </li>
     );

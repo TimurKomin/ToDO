@@ -12,13 +12,15 @@ const Todos = () => {
     const [inputValue, setInputValue] = useState("");
     const [filter, setFilter] = useState("");
     const [pagesCurrent, setPagesCurrent] = useState(0);
-    
+    const [filterServ, setFilterServ] = useState('')
+    const [sortServ, setSortServ] = useState('asc')
+    console.log(todos)
 
     const getTodos = async () => {
         try {
-            const response = await  http.get(`/tasks/6?order=asc&pp=5&page=${pagesCurrent + 1}`)
+            const response = await  http.get(`/tasks/6?page${pagesCurrent+1}&order=${sortServ}&pp=20&filterBy=${filterServ}`)
             console.log('res', response);
-            setTodos(response.data.tasks )
+            setTodos(todos => todos = response.data.tasks)
         } catch (err) {
             console.log(err);
         }
@@ -34,28 +36,38 @@ const Todos = () => {
                 } 
             }; 
 
-    const pathPost = async (e, uuid) => {
-        console.log(e.target.checked)
+    const patchPost = async (e, uuid) => {
+        console.log(e)
         try {
-            const resp = await http.patch(`/task/6/${uuid}`, {done: !e.target.checked})
+            const resp = await http.patch(`/task/6/${uuid}`, {done: e.target.checked})
             console.log(resp)
             const todo = resp.data;
-            // setTodos(prev => { prev.map((item) => {
-            //     if (item.uuid === uuid) {
-            //         return { ...item, done: !item.done };
-            //     } else {
-            //         return item;
-            //     }
-            //     })
-
-            // })
         } catch (err) {
             console.log(err)
         }
     }
     
+    const patchChangeTask = async (e, uuid) =>  {
+        console.log(e.target.value)
+        try {
+            const resp = await http.patch(`/task/6/${uuid}`, {name: e.target.value})
+        console.log(resp)
+        }catch(err) {
+            console.log(err)
+
+        }
+
+    }
     
-    
+    const deleteTask = async (uuid) => {
+        console.log(uuid)
+        try{
+            const resp = await http.delete(`/task/6/${uuid}`)
+            console.log(resp)
+        }catch(err) {
+            console.log(err)
+        }
+    } 
 
     useEffect(() => {getTodos()}, [filter])
     
@@ -63,14 +75,12 @@ const Todos = () => {
     const taskCraete = () => {
     if (inputValue.trim()) {
         const newTask = {
-        // uuid: Date.now(),
         name: inputValue,
         done: false,
         };
-        
-        setTodos([...todos, newTask]);
         postTodos(newTask)
-        // pathPost()
+        setTodos([...todos, newTask]);
+        
     }
     if (pageCurrent().length === 5) {
         setPagesCurrent(pagesCurrent + 1);
@@ -88,34 +98,67 @@ const Todos = () => {
     setInputValue("");
     buttonPage();
     };
+
         const sortByDate = () => {
-    setTodos([...todos.reverse()]);
-    
+    // setTodos([...todos.reverse()]);
+    setSortServ(sortServ => sortServ = 'desc')
+    console.log(sortServ)
+    if(sortServ === 'desc')
+    setSortServ(sortServ => sortServ = 'asc')
+    getTodos()
     };
     
+    const checkAllApi = async () => {
+        const arr = todos.filter((item) => item.done === false)
+        const arrProm = arr.map(({uuid}) => http.patch(`/task/6/${uuid}`, {done: true}))
+        console.log(arrProm)
+        try {
+            const resp = await Promise.all(arrProm)
+            console.log(resp)
+            
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     const checkAll = () => {
-    setCheck(!check);
-    setTodos(
-        todos.map((item) => {
-        return { ...item, done: check };
-        })
-    );
+    checkAllApi()
+    // setCheck(!check);
+    // setTodos(
+    //     todos.map((item) => {
+    //     return { ...item, done: check };
+    //     })
+    // );
+    getTodos()
     };
 
-    const deleteCheck = () => {
-    setTodos([...todos.filter((item) => item.done === false)]);
+    const deleteCheck = async () => {
+        const arr = todos.filter((item) => item.done === true)
+        const arrProm = arr.map(({uuid}) => http.delete(`/task/6/${uuid}`))
+        console.log(arrProm)
+        try {
+            const resp = await Promise.all(arrProm)
+            console.log(resp)
+            
+        }catch(err){
+            console.log(err)
+        }
+    // setTodos([...todos.filter((item) => item.done === false)])
+    getTodos()
     };
 
     const filterTasks = (e) => {
     if (e.target.className === "btn-active") {
         setFilter(false);
+        setFilterServ('undone')
         setPagesCurrent(pagesCurrent - pagesCurrent);
     } else if (e.target.className === "btn-done") {
         setFilter(true);
+        setFilterServ('done')
         setPagesCurrent(pagesCurrent - pagesCurrent);
     } else if (e.target.className === "btn-all") {
         setFilter("");
+        setFilterServ('')
     }
     };
 
@@ -145,7 +188,8 @@ const Todos = () => {
     return page;
     };
 
-    const deleteTasks = (name) => {
+    const deleteTasks = (name, uuid) => {
+        deleteTask(uuid)
     setTodos([...todos.filter((todo) => todo.name !== name)]);
     if (pageCurrent().length === 1) {
         setPagesCurrent(pagesCurrent - 1);
@@ -158,7 +202,7 @@ const Todos = () => {
         setPagesCurrent(pagesCurrent - 1);
         }
     }
-    pathPost(e, id)
+    patchPost(e, id)
     setTodos(
         todos.map((item) => {
         if (item.uuid === id) {
@@ -174,6 +218,9 @@ const Todos = () => {
     setCheck(todos.every((item) => item.done === true));
     };
     console.log(todos)
+
+
+
     return (
     <div id="Todos">
         <AddTask
@@ -184,11 +231,14 @@ const Todos = () => {
         getValue={getValue}
         sortByDate={sortByDate}
         setInputValue={setInputValue}
+        setSortServ={setSortServ}
+        sortServ={sortServ}
         />
         <ul className="todo-items">
         {pageCurrent().map((todo) => {
             return (
             <TodoItems
+                patchChangeTask={patchChangeTask}
                 id={todo.uuid}
                 todos={todos}
                 checkTask={checkTask}
