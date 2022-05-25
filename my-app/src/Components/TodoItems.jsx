@@ -17,7 +17,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask, patchChangeTask }) => {
     };
 
     const saveTask = (e, uuid) => {
-        // patchChangeTask(e, uuid)
+        patchChangeTask(e, uuid)
     setInputItemValue(e.target.value);
     };
 
@@ -25,10 +25,11 @@ const TodoItems = ({ todo, deleteTasks, checkTask, patchChangeTask }) => {
     if (e.key === "Enter") {
         if(e.target.value){
         todo.name = inputItemValue;
-        
-        }
-        setInputCreate(!inputCreate);
         patchChangeTask(e, uuid)
+        setInputCreate(!inputCreate);
+        }
+        
+        
     } else if (e.key === "Escape") {
         setInputCreate(!inputCreate);
     }
@@ -37,10 +38,10 @@ const TodoItems = ({ todo, deleteTasks, checkTask, patchChangeTask }) => {
     const saveOnFocus = (e, uuid) => {
     if(inputItemValue){
         todo.name = inputItemValue;
-         
+        
+        patchChangeTask(e, uuid)
     }
     setInputCreate(!inputCreate);
-    patchChangeTask(e, uuid)
     };
 
     return (
