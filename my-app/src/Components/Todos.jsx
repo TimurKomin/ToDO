@@ -11,29 +11,28 @@ const Todos = () => {
     const [check, setCheck] = useState(false);
     const [inputValue, setInputValue] = useState("");
     const [filter, setFilter] = useState("");
-    const [pagesCurrent, setPagesCurrent] = useState(0);
+    const [pageCurrent, setPageCurrent] = useState(0);
     const [filterServ, setFilterServ] = useState("");
     const [sortServ, setSortServ] = useState("asc");
     const [pagination, setPagination] = useState(0);
-    console.log(todos);
 
     const selectPage = (e) => {
     console.log(e.target.id);
-    setPagesCurrent(Number(e.target.id));
-    console.log(pagesCurrent);
+    setPageCurrent(Number(e.target.id));
+    console.log(pageCurrent);
     };
 
     const getTodos = async () => {
     try {
-        console.log(pagesCurrent);
+        console.log(pageCurrent);
         const response = await http.get(
         `/tasks/6?page=${
-            pagesCurrent + 1
+            pageCurrent + 1
         }&order=${sortServ}&pp=5&filterBy=${filterServ}`
         );
         console.log("res", response);
         setTodos((todos) => (todos = response.data.tasks));
-        console.log(pagesCurrent);
+        console.log(pageCurrent);
     } catch (err) {
         console.log(err);
     }
@@ -41,7 +40,7 @@ const Todos = () => {
 
     const paginationApi = async () => {
     try {
-        const resp = await http.get(`/tasks/6`);
+        const resp = await http.get(`/tasks/6?filterBy=${filterServ}`);
         console.log(resp);
         setPagination(Math.ceil(resp.data.count / 5));
     } catch (error) {
@@ -66,7 +65,6 @@ const Todos = () => {
         done: e.target.checked,
         });
         console.log(resp);
-        // const todo = resp.data;
     } catch (err) {
         console.log(err);
     }
@@ -93,14 +91,24 @@ const Todos = () => {
     } catch (err) {
         console.log(err);
     }
+    if(todos.length === 1){
+        setPageCurrent((prev) => prev -= 1)
+    }
+    getTodos()
+    
     };
 
     useEffect(() => {
     getTodos();
-    }, [filter, pagesCurrent, filterServ, sortServ]);
+    }, [filter, pageCurrent, filterServ, sortServ]);
     useEffect(() => {
     paginationApi();
     }, [todos]);
+
+    useEffect(() => {if (todos.length === 0 && pageCurrent > 0){
+        setPageCurrent(prev => prev-1)};
+        }, [todos.length]);
+    
 
     const taskCraete = () => {
         if (inputValue.trim()) {
@@ -111,8 +119,8 @@ const Todos = () => {
         postTodos(newTask);
         setTodos([...todos, newTask]);
     }
-    if (pageCurrent().length === 4) {
-        setPagesCurrent(pagesCurrent + 1);
+    if (todos.length === 4) {
+        setPageCurrent(prev => prev += 1);
     }
     };
 
@@ -146,14 +154,16 @@ const Todos = () => {
         } catch (err) {
         console.log(err);
         }
+        console.log(todos.length)
         getTodos()
     };
 
     const checkAll = () => {
-    checkAllApi();
+    checkAllApi();    
     };
 
     const deleteCheck = async () => {
+
         const arr = todos.filter((item) => item.done === true);
         const arrProm = arr.map(({ uuid }) => http.delete(`/task/6/${uuid}`));
         console.log(arrProm);
@@ -177,11 +187,11 @@ const Todos = () => {
                 console.log(err);
             }
 
-        setPagesCurrent(pagesCurrent - pagesCurrent);
+        setPageCurrent(pageCurrent - pageCurrent);
         } else if (e.target.className === "btn-done") {
             setFilter(true);
             setFilterServ("done");
-            setPagesCurrent(pagesCurrent - pagesCurrent);
+            setPageCurrent(pageCurrent - pageCurrent);
         } else if (e.target.className === "btn-all") {
             setFilter("");
             setFilterServ("");
@@ -199,38 +209,25 @@ const Todos = () => {
         return newPage;
     };
 
-    const pageCurrent = () => {
-        const start = pagesCurrent * 5;
-        const end = start + 5;
-        const page = todos.slice(start, end);
-        console.log(page);
-        return page;
-    };
+    // const itemPageCurrent = () => {
+    //     const start = pageCurrent * 5;
+    //     const end = start + 5;
+    //     const page = todos.slice(start, end);
+    //     console.log(page);
+    //     return page;
+    // };
 
     const deleteTasks = (name, uuid) => {
         deleteTask(uuid);
-        setTodos([...todos.filter((todo) => todo.name !== name)]);
-        if (pageCurrent().length === 1) {
-        setPagesCurrent(pagesCurrent - 1);
-        }
+        // setTodos([...todos.filter((todo) => todo.name !== name)]);
+        // if (pageCurrent().length === 1) {
+        // setPageCurrent(pageCurrent - 1);
+        // }
     };
 
     const checkTask = (e, id) => {
-        if (todos.length === 1) {
-        if (pagesCurrent > 0) {
-            setPagesCurrent(pagesCurrent - 1);
-        }
-        }
+        
         patchPost(e, id);
-        // setTodos(
-        // todos.map((item) => {
-        //     if (item.uuid === id) {
-        //     return { ...item, done: !item.done };
-        //     } else {
-        //     return item;
-        //     }
-        // })
-        // );
     };
 
 
@@ -280,8 +277,8 @@ const Todos = () => {
                     pagination={pagination}
                     setPagination={setPagination}
                     filterRender={filterRender()}
-                    pagesCurrent={pagesCurrent}
-                    setPagesCurrent={setPagesCurrent}
+                    pagesCurrent={pageCurrent}
+                    setPagesCurrent={setPageCurrent}
                     selectPage={selectPage}
                     buttonPage={buttonPage}
                     todos={todos}
