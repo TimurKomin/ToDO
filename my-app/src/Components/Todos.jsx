@@ -22,6 +22,7 @@ const Todos = () => {
     setPagesCurrent(Number(e.target.id));
     console.log(pagesCurrent);
     };
+
     const getTodos = async () => {
     try {
         console.log(pagesCurrent);
@@ -96,7 +97,7 @@ const Todos = () => {
 
     useEffect(() => {
     getTodos();
-    }, [filter, pagesCurrent, filterServ]);
+    }, [filter, pagesCurrent, filterServ, sortServ]);
     useEffect(() => {
     paginationApi();
     }, [todos]);
@@ -128,11 +129,9 @@ const Todos = () => {
     };
 
     const sortByDate = () => {
-        // setTodos([...todos.reverse()]);
         setSortServ((sortServ) => (sortServ = "desc"));
         console.log(sortServ);
         if (sortServ === "desc") setSortServ((sortServ) => (sortServ = "asc"));
-        getTodos();
     };
 
     const checkAllApi = async () => {
@@ -147,11 +146,11 @@ const Todos = () => {
         } catch (err) {
         console.log(err);
         }
+        getTodos()
     };
 
     const checkAll = () => {
     checkAllApi();
-    getTodos();
     };
 
     const deleteCheck = async () => {
@@ -217,21 +216,21 @@ const Todos = () => {
     };
 
     const checkTask = (e, id) => {
-        if (pageCurrent().length === 1) {
+        if (todos.length === 1) {
         if (pagesCurrent > 0) {
             setPagesCurrent(pagesCurrent - 1);
         }
         }
         patchPost(e, id);
-        setTodos(
-        todos.map((item) => {
-            if (item.uuid === id) {
-            return { ...item, done: !item.done };
-            } else {
-            return item;
-            }
-        })
-        );
+        // setTodos(
+        // todos.map((item) => {
+        //     if (item.uuid === id) {
+        //     return { ...item, done: !item.done };
+        //     } else {
+        //     return item;
+        //     }
+        // })
+        // );
     };
 
 
