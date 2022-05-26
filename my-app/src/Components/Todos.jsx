@@ -91,9 +91,6 @@ const Todos = () => {
     } catch (err) {
         console.log(err);
     }
-    if(todos.length === 1){
-        setPageCurrent((prev) => prev -= 1)
-    }
     getTodos()
     
     };
@@ -118,9 +115,6 @@ const Todos = () => {
             };  
         postTodos(newTask);
         setTodos([...todos, newTask]);
-    }
-    if (todos.length === 4) {
-        setPageCurrent(prev => prev += 1);
     }
     };
 
