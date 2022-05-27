@@ -53,7 +53,7 @@ const Todos = () => {
         const resp = await http.post("task/6", obj);
         console.log(resp);
     } catch (err) {
-        console.error(err, 1);
+        alert(err, 1);
     }
     getTodos();
     };
@@ -66,7 +66,7 @@ const Todos = () => {
         });
         console.log(resp);
     } catch (err) {
-        console.log(err);
+        alert(err);
     }
     getTodos();
     };
