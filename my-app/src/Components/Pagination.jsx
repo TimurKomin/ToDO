@@ -1,37 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import "../Styles/Pagination.css";
 import Button from "./ Button";
 import "../Styles/Button.css";
-import Todos from "./Todos";
 const Pagination = ({
-    buttonPage,
+    countButtons,
     selectPage,
-    pagesCurrent,
-    setPagesCurrent,
-    filterRender,
-    classStyle,
-    pagination,
+    currentPage,
+    setCurrentPage,
+    totalPage,
     }) => {
+        
     return (
         <div className="block-pagin">
         <Button
             body={"Begining"}
-            callback={() => setPagesCurrent((pagesCurrent) => 0)}
+            callback={() => setCurrentPage((currentPage) => 0)}
         />
         <Button
             body={"<<"}
             callback={() =>
-            pagesCurrent >= 1 ? setPagesCurrent(pagesCurrent - 1) : false
+            currentPage >= 1 ? setCurrentPage(currentPage - 1) : false
             }
             classStyle={"pagins-l"}
         />
 
-        {[...Array(pagination).keys()].map((item) => {
+        {countButtons.map((item) => {
             return (
             <Button
                 item={item}
                 callback={selectPage}
-                classStyle={pagesCurrent === item ? "button-pgn-active" : ""}
+                classStyle={currentPage === item ? "button-pgn-active" : ""}
                 id={item}
                 body={item + 1}
                 key={Math.random()}
@@ -42,8 +40,8 @@ const Pagination = ({
         <Button
             body={">>"}
             callback={() =>
-            pagesCurrent + 1  < pagination
-                ? setPagesCurrent(pagesCurrent + 1)
+            currentPage + 1  < totalPage
+                ? setCurrentPage(currentPage + 1)
                 : false
             }
             classStyle={"pagins-r"}
@@ -51,7 +49,7 @@ const Pagination = ({
         <Button
             body={"In The End"}
             callback={() =>
-            setPagesCurrent((pagesCurrent) => (pagesCurrent = pagination - 1))
+            setCurrentPage((currentPage) => (currentPage = totalPage - 1))
             }
         />
         </div>

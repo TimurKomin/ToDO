@@ -3,7 +3,13 @@ import Button from "./ Button";
 import "../Styles/Button.css";
 import "../Styles/AddTask.css";
 import InputTodo from "./InputTodo";
-const AddTask = ({ addTodoHandler, inputValue, getValue, sortByDate }) => {
+const AddTask = ({
+    addTodoHandler,
+    inputValue,
+    getValue,
+    sortByDate,
+    statusFilter,
+    }) => {
     const keyAdd = (e) => {
         if (e.key === "Enter") {
         addTodoHandler();
@@ -22,9 +28,13 @@ const AddTask = ({ addTodoHandler, inputValue, getValue, sortByDate }) => {
         <Button body={"Add"} classStyle={"btn-add"} callback={addTodoHandler} />
         <div className="block-sort">
             Sort By Date
-            <Button body={"SWAP"} callback={sortByDate} classStyle={"btn-swap"} />
+            <Button
+            body={statusFilter}
+            callback={sortByDate}
+            classStyle={"btn-swap"}
+            />
         </div>
         </div>
     );
-};
-export default AddTask;
+    };
+    export default AddTask;

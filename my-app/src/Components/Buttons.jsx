@@ -3,13 +3,12 @@ import Button from "./ Button";
 import "../Styles/Button.css";
 import InputTodo from "./InputTodo";
 const Buttons = ({
-    check,
+    deleteTasks,
+    setCurrentPage,
     checkAll,
-    deleteCheck,
-    filterTasks,
+    setFilter,
     todos,
     filter,
-    setFilter,
     }) => {
     return (
         <div className="buttons">
@@ -18,11 +17,11 @@ const Buttons = ({
             type={"checkbox"}
             classStyle={"check-all"}
             callback={checkAll}
-            checked={todos.every((item) => item.done === true)}
+            checked={todos.every((item) => item.done == true)}
             />
             <p>Check All</p>
             <Button
-            callback={deleteCheck}
+            callback={deleteTasks}
             body={"Delete"}
             classStyle={"btn-delete"}
             />
@@ -30,17 +29,17 @@ const Buttons = ({
         <div className="sort-btn">
             <Button
             body={"Active"}
-            callback={filterTasks}
-            classStyle={filter === false ? "button-active" : "btn-active"}
+            callback={() => { setFilter("undone"); setCurrentPage(0) }}
+            classStyle={filter === 'undone' ? "button-active" : "btn-active"}
             />
             <Button
             body={"Done"}
-            callback={filterTasks}
-            classStyle={filter === true ? "button-active" : "btn-done"}
+            callback={() =>{ setFilter("done"); setCurrentPage(0) }}
+            classStyle={filter === 'done' ? "button-active" : "btn-done"}
             />
             <Button
             body={"All"}
-            callback={filterTasks}
+            callback={() => { setFilter(""); setCurrentPage(0) }}
             classStyle={filter === "" ? "button-active" : "btn-all"}
             />
         </div>

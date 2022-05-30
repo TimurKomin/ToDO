@@ -2,10 +2,22 @@ import React from "react";
 import Button from "./ Button";
 import InputTodo from "./InputTodo";
 import { useState } from "react";
+import { http } from "../api/http"; 
 
-const TodoItems = ({ todo, deleteTasks, checkTask, patchChangeTask }) => {
+const TodoItems = ({ todo, deleteTasks, checkTask }) => {
     const [inputCreate, setInputCreate] = useState(true);
     const [inputItemValue, setInputItemValue] = useState("");
+    
+    const changeTask = async (e, uuid) => {
+        try {
+            await http.patch(`/task/6/${uuid}`, {
+            name: inputItemValue,
+            });
+        } catch (err) {
+            console.log(err);
+        }
+        };
+
     const openInput = () => {
     setInputCreate(prev => !prev);
     rewrite();
@@ -16,32 +28,21 @@ const TodoItems = ({ todo, deleteTasks, checkTask, patchChangeTask }) => {
     return valueItem;
     };
 
-    const saveTask = (e, uuid) => {
-        patchChangeTask(e, uuid)
+    const saveTask = (e) => {
     setInputItemValue(e.target.value);
     };
 
     const saveSpan = (e, uuid) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" || e.type === 'blur') {
         if(e.target.value){
         todo.name = inputItemValue;
-        patchChangeTask(e, uuid)
-        setInputCreate(!inputCreate);
+        changeTask(e, uuid)
         }
-        
+        setInputCreate(!inputCreate);
         
     } else if (e.key === "Escape") {
         setInputCreate(!inputCreate);
     }
-    };
-
-    const saveOnFocus = (e, uuid) => {
-    if(inputItemValue){
-        todo.name = inputItemValue;
-        
-        patchChangeTask(e, uuid)
-    }
-    setInputCreate(!inputCreate);
     };
 
     return (
@@ -62,7 +63,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask, patchChangeTask }) => {
             autoFocus
             className="input-li"
             value={inputItemValue}
-            onBlur={(e) => saveOnFocus(e, todo.uuid)}
+            onBlur={(e) => saveSpan(e, todo.uuid)}
             onChange={(e) => saveTask(e, todo.uuid)}
             onKeyDown={(e) => saveSpan(e, todo.uuid)}
         />
@@ -70,7 +71,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask, patchChangeTask }) => {
         <Button
         body={"DEL"}
         classStyle={"btn-del"}
-        callback={() => deleteTasks(todo.name, todo.uuid)}
+        callback={() => deleteTasks(todo.uuid)}
         />
     </li>
     );
