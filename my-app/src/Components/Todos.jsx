@@ -36,11 +36,12 @@ const Todos = () => {
     const getTodos = async () => {
     try {
         const response = await http.get(
-        `/tasks/6?page=${
+        `/getTask?page=${
             currentPage + 1
         }&order=${sortTasks}&pp=5&filterBy=${filter}`
         );
-        setTodos(response.data.tasks);
+        console.log(response)
+        setTodos(response.data.arr);
         setTotalPage(Math.ceil(response.data.count / 5));
     } catch (err) {
         console.log(err);
@@ -49,7 +50,7 @@ const Todos = () => {
 
     const postTodos = async (obj) => {
     try {
-        await http.post("task/6", obj);
+        await http.post("/postTask", obj);
         alert('Задача добавлена');
     } catch (err) {
         alert('Задача не добавлена');
@@ -163,7 +164,7 @@ const Todos = () => {
                         checkTask={checkTask}
                         key={todo.uuid}
                         todo={todo}
-                        deleteTasks={deleteTasks}
+                        deleteTask={deleteTask}
                         />
                     );
                     })}

@@ -4,11 +4,11 @@ import InputTodo from "./InputTodo";
 import { useState } from "react";
 import { http } from "../api/http"; 
 
-const TodoItems = ({ todo, deleteTasks, checkTask }) => {
+const TodoItems = ({ todo, deleteTask, checkTask }) => {
     const [inputCreate, setInputCreate] = useState(true);
     const [inputItemValue, setInputItemValue] = useState("");
     
-    const changeTask = async (e, uuid) => {
+    const changeTask = async (uuid) => {
         try {
             await http.patch(`/task/6/${uuid}`, {
             name: inputItemValue,
@@ -71,7 +71,7 @@ const TodoItems = ({ todo, deleteTasks, checkTask }) => {
         <Button
         body={"DEL"}
         classStyle={"btn-del"}
-        callback={() => deleteTasks(todo.uuid)}
+        callback={() => deleteTask(todo.uuid)}
         />
     </li>
     );
