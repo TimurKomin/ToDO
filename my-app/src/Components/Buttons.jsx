@@ -3,6 +3,8 @@ import Button from "./ Button";
 import "../Styles/Button.css";
 import InputTodo from "./InputTodo";
 const Buttons = ({
+    setCheck,
+    check,
     deleteTasks,
     setCurrentPage,
     checkAll,
@@ -16,13 +18,13 @@ const Buttons = ({
             <InputTodo
             type={"checkbox"}
             classStyle={"check-all"}
-            callback={checkAll}
-            checked={todos.every((item) => item.done == true)}
+            callback={()=> {checkAll(); setCheck(!check)}}
+            checked={!check}
             />
             <p>Check All</p>
             <Button
             callback={deleteTasks}
-            body={"Delete"}
+            body={"Delete-ALL"}
             classStyle={"btn-delete"}
             />
         </div>

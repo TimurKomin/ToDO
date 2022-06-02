@@ -10,7 +10,7 @@ const TodoItems = ({ todo, deleteTask, checkTask }) => {
     
     const changeTask = async (uuid) => {
         try {
-            await http.patch(`/task/6/${uuid}`, {
+            await http.patch(`/patchTask/?uuid=${uuid}`, {
             name: inputItemValue,
             });
         } catch (err) {
@@ -36,7 +36,7 @@ const TodoItems = ({ todo, deleteTask, checkTask }) => {
     if (e.key === "Enter" || e.type === 'blur') {
         if(e.target.value){
         todo.name = inputItemValue;
-        changeTask(e, uuid)
+        changeTask(uuid)
         }
         setInputCreate(!inputCreate);
         

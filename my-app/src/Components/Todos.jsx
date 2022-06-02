@@ -17,6 +17,8 @@ const Todos = () => {
     const [statusFilter, setStatusFilter] = useState('OLD');
     const [countButtons, setCountButtons] = useState([]);
 
+
+
     useEffect(() => {
         getTodos();
         }, [ currentPage, filter, sortTasks]);
@@ -29,6 +31,10 @@ const Todos = () => {
         setCountButtons([...new Array(totalPage).keys()]);
         }, [totalPage, todos]);
         
+    // useEffect(() => { if (todos.every((item) => item.done === true)){
+    //         setCheck(true) }  else { setCheck(false)}
+    //     }, [todos]) 
+    
     const selectPage = (e) => {
     setCurrentPage(Number(e.target.id));
     };
@@ -50,7 +56,7 @@ const Todos = () => {
 
     const postTodos = async (obj) => {
     try {
-        await http.post("/postTask", obj);
+        await http.post(`/postTask`, obj);
         alert('Задача добавлена');
     } catch (err) {
         alert('Задача не добавлена');
@@ -62,7 +68,7 @@ const Todos = () => {
 
     const deleteTask = async (uuid) => {
     try {
-        await http.delete(`/task/6/${uuid}`);
+        await http.delete(`/deleteTask/?uuid=${uuid}`);
     } catch (err) {
         console.log(err);
     }
@@ -97,39 +103,47 @@ const Todos = () => {
         setSortTask("desc");
         if (sortTasks === "desc") setSortTask("asc");
     };
-
+// setCheck(!check)
+        console.log(check)
     const checkAll = async () => {
-        setCheck(!check)
-        if(todos.length){
-            const arrProm = todos.map(({ uuid }) =>
-            http.patch(`/task/6/${uuid}`, { done: check })
-            );
+       
+        
+            const arrProm = todos.map((item) => item.uuid) 
             try {
-            const resp = await Promise.all(arrProm);
-            getTodos()
+               
+            const resp = await http.patch(`/checkAll/?uuid=${arrProm}` , {check})
+            console.log(arrProm)
+            
             } catch (err) {
             console.log(err);
-            }
-        }  
+            
+            
+        } 
+        getTodos()
+        // setCurrentPage(currentPage)
     };
 
 
     const deleteTasks = async () => {
         if(todos.length){
-            const arrProm = todos.map(({ uuid }) => http.delete(`/task/6/${uuid}`));
+            const x = todos.map(item => item.uuid)
+            console.log()
             try {
-                const resp = await Promise.all(arrProm);
+                const resp = await http.delete(`deleteTasks/?page=${currentPage + 1}`);
+                
             } catch (err) {
                 console.log(err);
             }
-            getTodos();
+            
+            
         }
+        getTodos();
     };
 
 
     const checkTask = async (e, uuid) => {
         try {
-            const resp = await http.patch(`/task/6/${uuid}`, {
+            const resp = await http.patch(`/patchTask/?uuid=${uuid}`, {
             done: e.target.checked,
             });
         } catch (err) {
@@ -149,6 +163,8 @@ const Todos = () => {
             sortByDate={sortByDate}
             />
             <Buttons
+                    setCheck={setCheck}
+                    check={check}
                     setCurrentPage={setCurrentPage}
                     filter={filter}
                     setFilter={setFilter}
