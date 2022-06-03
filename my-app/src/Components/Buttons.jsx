@@ -18,8 +18,8 @@ const Buttons = ({
             <InputTodo
             type={"checkbox"}
             classStyle={"check-all"}
-            callback={()=> {checkAll(); setCheck(!check)}}
-            checked={!check}
+            callback={checkAll}
+            checked={check}
             />
             <p>Check All</p>
             <Button
