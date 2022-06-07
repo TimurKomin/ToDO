@@ -4,7 +4,7 @@ import InputTodo from "./InputTodo";
 import { useState } from "react";
 import { http } from "../api/http"; 
 
-const TodoItems = ({ todo, deleteTask, checkTask }) => {
+const TodoItems = ({ todo, deleteTask, checkTask, getTodos }) => {
     const [inputCreate, setInputCreate] = useState(true);
     const [inputItemValue, setInputItemValue] = useState("");
     
@@ -16,6 +16,7 @@ const TodoItems = ({ todo, deleteTask, checkTask }) => {
         } catch (err) {
             console.log(err);
         }
+        getTodos()
         };
 
     const openInput = () => {
@@ -35,8 +36,8 @@ const TodoItems = ({ todo, deleteTask, checkTask }) => {
     const saveSpan = (e, uuid) => {
     if (e.key === "Enter" || e.type === 'blur') {
         if(e.target.value){
-        todo.name = inputItemValue;
         changeTask(uuid)
+        
         }
         setInputCreate(!inputCreate);
         
