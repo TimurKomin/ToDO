@@ -27,9 +27,9 @@ const Todos = () => {
             }&order=${sortTasks}&allPerPage=5&filterBy=${filter}`
             );
             console.log(response)
-            setTodos(response.data.tasksCurrentPage);
-            setTotalPage(Math.ceil(response.data.count / 5));
-            setLength(response.data.count)
+            setTodos(response.data.arrFilterTasks);
+            setTotalPage(Math.ceil(response.data.countTasks / 5));
+            setLength(response.data.countTasks)
 
         } catch (err) {
             console.log(err);
@@ -83,6 +83,8 @@ useEffect(() => {
         
         try {
             await http.delete(`/deleteTask/?uuid=${uuid}`);
+            console.log(uuid)
+
             if(todos.length > 1){
             await getTodos() 
             }else{
@@ -125,11 +127,16 @@ useEffect(() => {
     const checkAll = async ({target}) => {
         console.log("target", target.checked);
 
+                
+                try {
+setCheck(target.checked) 
+                const arrProm = await todos.map((item) => item  = http.patch(`/patchTask/?uuid=${item.uuid}`,{
+                    done: target.checked,
+                    })) 
+                console.log(arrProm)
 
-            const arrProm = todos.map((item) => item.uuid) 
-            try {
-                setCheck(target.checked)
-            await http.patch(`/checkAll/?uuid=${arrProm}` , {check:  !target.checked})
+                   await Promise.all(arrProm)
+                    // await http.patch(`/checkAll/?uuid=${arrProm}` , )
             if(filter === '' || currentPage === 0){
             await getTodos()
             }else if(currentPage !== 0){
@@ -145,10 +152,10 @@ useEffect(() => {
 
     const deleteTasks = async () => {
         if(todos.length){
-            const arrProm = todos.map((item) => item.uuid) 
-            console.log()
+            const arrProm = todos.map((item) => item  = http.delete(`/deleteTask/?uuid=${item.uuid}`)) 
+            console.log(arrProm)
             try {
-                await http.delete(`deleteTasks/?uuid=${arrProm}`);
+                await Promise.all(arrProm)
                 if(currentPage > 0 && currentPage === totalPage - 1) {
             await setCurrentPage(prev => prev - 1)
         }else if(currentPage === 0 || currentPage !== totalPage - 1) {
