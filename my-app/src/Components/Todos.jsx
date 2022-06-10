@@ -23,10 +23,10 @@ const Todos = () => {
         const response = await http.get(
             `/getTask?page=${currentPage }&order=${sortTasks}&allPerPage=5&filterBy=${filter}`
         );
-        console.log(response.data.FilterTasks.row)
-        setTodos(response.data.FilterTasks.row);
-        // setTotalPage(Math.ceil(response.data.count / 5));
-        // setLength(response.data.countTasks);
+        console.log(response.data.rows)
+        setTodos(response.data.rows);
+        setTotalPage(Math.ceil(response.data.count / 5));
+        setLength(response.data.count);
 
         } catch (err) {
         console.log(err);
