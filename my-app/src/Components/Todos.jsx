@@ -21,12 +21,13 @@ const Todos = () => {
     const getTodos = async () => {
         try {
         const response = await http.get(
-            `/getTask?page=${currentPage +
-            1}&order=${sortTasks}&allPerPage=5&filterBy=${filter}`
+            `/getTask?page=${currentPage }&order=${sortTasks}&allPerPage=5&filterBy=${filter}`
         );
-        setTodos(response.data.arrFilterTasks);
-        setTotalPage(Math.ceil(response.data.countTasks / 5));
-        setLength(response.data.countTasks);
+        console.log(response.data.FilterTasks.row)
+        setTodos(response.data.FilterTasks.row);
+        // setTotalPage(Math.ceil(response.data.count / 5));
+        // setLength(response.data.countTasks);
+
         } catch (err) {
         console.log(err);
         }
