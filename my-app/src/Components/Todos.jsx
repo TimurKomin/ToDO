@@ -193,13 +193,14 @@ const Todos = () => {
             );
             })}
         </ul>
-        <Pagination
+
+        {length >5 && <Pagination
             countButtons={countButtons}
             totalPage={totalPage}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             selectPage={selectPage}
-        />
+        />}
         </div>
     );
 };
