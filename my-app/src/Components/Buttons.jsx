@@ -3,13 +3,11 @@ import Button from "./ Button";
 import "../Styles/Button.css";
 import InputTodo from "./InputTodo";
 const Buttons = ({
-    setCheck,
     check,
     deleteTasks,
     setCurrentPage,
     checkAll,
     setFilter,
-    todos,
     filter,
     }) => {
     return (

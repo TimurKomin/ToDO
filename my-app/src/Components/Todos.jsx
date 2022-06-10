@@ -60,31 +60,23 @@ useEffect(() => {
         }, [totalPage, todos]);
         
     
-    const selectPage = (e) => {
-    setCurrentPage(Number(e.target.id));
-    };
+    const selectPage = (e) => setCurrentPage(Number(e.target.id));
 
 
 
     const postTodos = async (obj) => {
-    try {
-        await http.post(`/postTask`, obj);
-        // alert('Задача добавлена');
-        await getTodos();
-    } catch (err) {
-        // alert('Задача не добавлена');
-    }
-    
+        try {
+            await http.post(`/postTask`, obj);
+            alert('Задача добавлена');
+            await getTodos();
+        } catch (err) {
+            alert('Задача не добавлена');
+            }
     };
 
-    
-
     const deleteTask = async (uuid) => {
-        
         try {
             await http.delete(`/deleteTask/?uuid=${uuid}`);
-            console.log(uuid)
-
             if(todos.length > 1){
             await getTodos() 
             }else{
@@ -124,28 +116,21 @@ useEffect(() => {
     };
 
 
-    const checkAll = async ({target}) => {
-        console.log("target", target.checked);
-
-                
-                try {
-setCheck(target.checked) 
+    const checkAll = async ({target}) => { 
+            try {
+                setCheck(target.checked) 
                 const arrProm = await todos.map((item) => item  = http.patch(`/patchTask/?uuid=${item.uuid}`,{
                     done: target.checked,
-                    })) 
-                console.log(arrProm)
-
-                   await Promise.all(arrProm)
-                    // await http.patch(`/checkAll/?uuid=${arrProm}` , )
-            if(filter === '' || currentPage === 0){
-            await getTodos()
-            }else if(currentPage !== 0){
-            setCurrentPage(currentPage - 1)
-            }
-            console.log(arrProm)
+                    }))
+                await Promise.all(arrProm)
+                if(filter === '' || currentPage === 0){
+                    await getTodos()
+                }else if(currentPage !== 0){
+                setCurrentPage(currentPage - 1)
+                }
             } catch (err) {
             console.log(err);
-        } 
+            } 
         
     };
 
@@ -153,7 +138,6 @@ setCheck(target.checked)
     const deleteTasks = async () => {
         if(todos.length){
             const arrProm = todos.map((item) => item  = http.delete(`/deleteTask/?uuid=${item.uuid}`)) 
-            console.log(arrProm)
             try {
                 await Promise.all(arrProm)
                 if(currentPage > 0 && currentPage === totalPage - 1) {
@@ -183,8 +167,7 @@ setCheck(target.checked)
         } catch (err) {
             alert(err);
         }
-        
-        };
+    };
 
     return (
         <div id="Todos">
