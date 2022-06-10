@@ -35,7 +35,7 @@ const TodoItems = ({ todo, deleteTask, checkTask, getTodos }) => {
 
     const saveSpan = (e, uuid) => {
         if (e.key === "Enter" || e.type === "blur") {
-        if (e.target.value) {
+        if (e.target.value.trim()) {
             changeTask(uuid);
         }
         setInputCreate(!inputCreate);
