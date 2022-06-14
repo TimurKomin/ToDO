@@ -1,10 +1,12 @@
-import React, { Component, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import AddTask from "./AddTask";
 import Buttons from "./Buttons";
 import Pagination from "./Pagination";
 import "../Styles/Todos.css";
 import TodoItems from "./TodoItems";
 import { http } from "../api/http";
+import {notification, message} from 'antd'
+import "antd/dist/antd.css";
 
 const Todos = () => {
     const [todos, setTodos] = useState([]);
@@ -23,7 +25,6 @@ const Todos = () => {
         const response = await http.get(
             `/getTask?page=${currentPage }&order=${sortTasks}&allPerPage=5&filterBy=${filter}`
         );
-        console.log(response.data.rows)
         setTodos(response.data.rows);
         setTotalPage(Math.ceil(response.data.count / 5));
         setLength(response.data.count);
@@ -60,8 +61,14 @@ const Todos = () => {
     const postTodos = async (obj) => {
         try {
         await http.post(`/postTask`, obj);
-        await getTodos();
+        sortTasks === 'desc' ? setCurrentPage(0) : setCurrentPage(Math.floor(length/5))
+        getTodos();
+        
         } catch (err) {
+            console.log(err.response.data)
+
+            notification.error({message: err.response.data})
+            // message("Задача не добавлена")
             console.log("Задача не добавлена");
         }
     };
@@ -69,10 +76,13 @@ const Todos = () => {
     const deleteTask = async (uuid) => {
         try {
         await http.delete(`/deleteTask/?uuid=${uuid}`);
-        if (todos.length > 1) {
+        if (todos.length > 0) {
             await getTodos();
         } else {
-            setCurrentPage(currentPage - 1);
+            if(currentPage !== 0){
+                setCurrentPage(currentPage - 1);  
+            }
+            
         }
         } catch (err) {
         console.log(err);
@@ -98,6 +108,9 @@ const Todos = () => {
     const addTodoHandler = () => {
         taskCraete();
         setInputValue("");
+        // sortTasks === 'desc' ? setCurrentPage(0) : setCurrentPage(Math.floor(length/5))
+        // getTodos() 
+
     };
 
     const sortByDate = () => {
@@ -135,7 +148,7 @@ const Todos = () => {
         try {
             await Promise.all(arrProm);
             if (currentPage > 0 && currentPage === totalPage - 1) {
-            await setCurrentPage((prev) => prev - 1);
+            setCurrentPage((prev) => prev>0 && prev - 1);
             } else if (currentPage === 0 || currentPage !== totalPage - 1) {
             await getTodos();
             }
@@ -150,7 +163,7 @@ const Todos = () => {
         const resp = await http.patch(`/patchTask/?uuid=${uuid}`, {
             done: e.target.checked,
         });
-        if (todos.length > 1) {
+        if (todos.length > 0) {
             await getTodos();
         } else {
             setCurrentPage(currentPage - 1);

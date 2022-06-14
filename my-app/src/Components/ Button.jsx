@@ -1,10 +1,12 @@
 import React from "react";
 import "../Styles/Buttons.css";
-const Button = ({ body, classStyle, callback, id }) => {
+import { Button as ButtonAntd } from "antd";
+import "antd/dist/antd.css";
+const Button = ({ body, classStyle, callback, id, type, size, style }) => {
     return (
-        <button id={id} className={classStyle} onClick={callback}>
+        <ButtonAntd style={style} size={size} id={id} type={type} className={classStyle} onClick={callback}>
         {body}
-        </button>
+        </ButtonAntd>
     );
 };
 export default Button;

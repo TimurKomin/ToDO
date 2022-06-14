@@ -102,6 +102,7 @@
 }
 
 .sort-btn {
+    /* padding-right: 10px; */
     justify-content: center;
 
 }
@@ -136,6 +137,17 @@
         100% {
         background-position: 50px 0;
         }
+    }
+    /* #danger{
+
+        display: flex;
+        justify-content: space-between;
+    } */
+
+    #primary{
+        /* display: flex;
+        justify-content: space-between;
+        margin-right: 100px; */
     }
 
     .btn-del{

@@ -9,6 +9,7 @@ const Buttons = ({
     checkAll,
     setFilter,
     filter,
+    size
     }) => {
     return (
         <div className="buttons">
@@ -19,28 +20,33 @@ const Buttons = ({
             callback={checkAll}
             checked={check}
             />
-            <p>Check All</p>
+            <p>Check Page</p>
             <Button
+            type="danger"
+            size={"large"}
             callback={deleteTasks}
-            body={"Delete-ALL"}
-            classStyle={"btn-delete"}
+            body={"Erase page"}
             />
         </div>
         <div className="sort-btn">
             <Button
+            type="primary"
+            size={filter === 'undone' ? "large" : "middle"}
             body={"Active"}
             callback={() => { setFilter("undone"); setCurrentPage(0) }}
-            classStyle={filter === 'undone' ? "button-active" : "btn-active"}
+            
             />
             <Button
+            type="primary"
+            size={filter === 'done' ? "large" : "middle"}
             body={"Done"}
             callback={() =>{ setFilter("done"); setCurrentPage(0) }}
-            classStyle={filter === 'done' ? "button-active" : "btn-done"}
             />
             <Button
+            type="primary"
+            size={filter === '' ? "large" : "middle"}
             body={"All"}
             callback={() => { setFilter(""); setCurrentPage(0) }}
-            classStyle={filter === "" ? "button-active" : "btn-all"}
             />
         </div>
         </div>

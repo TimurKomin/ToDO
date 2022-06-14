@@ -3,6 +3,8 @@ import Button from "./ Button";
 import "../Styles/Button.css";
 import "../Styles/AddTask.css";
 import InputTodo from "./InputTodo";
+// import Button from 'antd/es/button'
+
 const AddTask = ({
     addTodoHandler,
     inputValue,
@@ -25,13 +27,14 @@ const AddTask = ({
             classStyle={"from-control"}
             callback={getValue}
         />
-        <Button body={"Add"} classStyle={"btn-add"} callback={addTodoHandler} />
+        <Button type={"primary"} body={"Add"} callback={addTodoHandler} />
         <div className="block-sort">
             Sort By Date
             <Button
+            type="primary"
             body={statusFilter}
             callback={sortByDate}
-            classStyle={"btn-swap"}
+            // classStyle={"btn-swap"}
             />
         </div>
         </div>

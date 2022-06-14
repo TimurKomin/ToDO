@@ -1,8 +1,10 @@
 import React from "react";
-import Button from "./ Button";
+// import Button from "./ Button";
 import InputTodo from "./InputTodo";
 import { useState } from "react";
 import { http } from "../api/http";
+import ButtonAntd1 from "./ Button";
+// import {Button} from 'antd'
 
 const TodoItems = ({ todo, deleteTask, checkTask, getTodos }) => {
     const [inputCreate, setInputCreate] = useState(true);
@@ -67,9 +69,11 @@ const TodoItems = ({ todo, deleteTask, checkTask, getTodos }) => {
             onKeyDown={(e) => saveSpan(e, todo.uuid)}
             />
         )}
-        <Button
-            body={"DEL"}
-            classStyle={"btn-del"}
+        <ButtonAntd1
+            // classStyle={"btn-del"}
+            type={"danger"}
+            body={<h3>DEL</h3>}
+            // 
             callback={() => deleteTask(todo.uuid)}
         />
         </li>
