@@ -1,18 +1,24 @@
 import React from "react";
-import "../Styles/Pagination.css";
 import Button from "./ Button";
-import "../Styles/Button.css";
+import {  Pagination as PaginationAntd  } from "antd"
 const Pagination = ({
+    allPerPage,
+    setAllPerPage,
     countButtons,
     selectPage,
     currentPage,
     setCurrentPage,
     totalPage,
     }) => {
+
+        const onShowSizeChange = (currentPage, pageSize) => {
+            setAllPerPage(pageSize)
+            // console.log(pageSize)
+        }
         
     return (
         <div className="block-pagin">
-        <Button
+        {/* <Button
             type = "primary"
             body={"Begining"}
             callback={() => setCurrentPage((currentPage) => 0)}
@@ -22,10 +28,20 @@ const Pagination = ({
             body={"<<"}
             callback={() =>
             currentPage >= 1 ? setCurrentPage(currentPage - 1) : false
-            }
-        />
+            } */}
+        {/* /> */}
+        <PaginationAntd
+        style={{
+            margintop : "10 px"
+        }}
+        total={totalPage}
+        showSizeChanger
 
-        {countButtons.map((item) => {
+        onShowSizeChange={onShowSizeChange}
+        onChange={(e) =>  {setCurrentPage(e); console.log(e)}}
+
+        />
+        {/* {countButtons.map((item) => {
             return (
             <Button
             type = {currentPage === item ? "primary" : "ghost"}
@@ -38,8 +54,8 @@ const Pagination = ({
                 key={Math.random()}
             ></Button>
             );
-        })}
-
+        })} */}
+{/* 
         <Button
         type = "primary"
             body={">>"}
@@ -55,7 +71,7 @@ const Pagination = ({
             callback={() =>
             setCurrentPage((currentPage) => (currentPage = totalPage - 1))
             }
-        />
+        /> */}
         </div>
     );
 };
