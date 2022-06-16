@@ -10,15 +10,19 @@ import { http } from "../api/http";
 import { notification, message, Button, Checkbox, ConfigProvider } from "antd";
 import en_US from 'antd/lib/locale/en_US';
 // import "antd/dist/antd.css";
-import { PageContainer, ProColumns, ProForm, ProFormText } from "@ant-design/pro-components";
-import { DeleteOutlined } from "@ant-design/icons";
+import {  ProColumns, ProForm, ProFormText } from "@ant-design/pro-form";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import ProTable from "@ant-design/pro-table";
 import Search from "antd/lib/transfer/search";
+import { withRouter } from "react-router";
+import { PageContainer } from "@ant-design/pro-layout";
+
 // import InputTodo from "./InputTodo";
 import { Layout } from "antd";
 const {Header, Footer, Sider, Content} = Layout
 
-const Todos = () => {
+const Todos = (props) => {
+  console.log(props);
   const [todos, setTodos] = useState([]);
   const [check, setCheck] = useState(true);
   const [inputValue, setInputValue] = useState("");
@@ -186,6 +190,7 @@ const Todos = () => {
       console.log(err);
     }
   };
+
   const columns: ProColumns[] = [
     {
       title: "check",
@@ -215,6 +220,28 @@ const Todos = () => {
       dataIndex: "createdAt",
       width: 200,
       align:"center"
+    }, 
+    {
+      title: "Editing",
+      dataIndex: "title",
+      width: 60,
+      align:"center",
+      render: (done, data) => (
+        <Link
+            style={{ display: "block", margin: "1rem 0" }}
+            state={ {id:`${data.uuid}`} }
+            to={{ pathname: `edit/${data.uuid}`}}
+             
+            key={`${data.uuid}`}
+          >
+            <EditOutlined /> 
+          </Link>
+        // <Button type="primary" >
+        //   {/* <Link></Link> */}
+        //   
+           
+        // </Button>
+      ),
     },
     {
       title: "delete",
@@ -229,37 +256,32 @@ const Todos = () => {
     },
   ];
   const data = todos;
-
   return (
       
        <Layout>     
-      <Header style={{
-          color: "white"
-      }}>TODO-LIST</Header>
+     
       <Content>
        
-<ConfigProvider locale={en_US}>
-           <ProFormText label="new Task.."/>
-       
-
-       <Button type="primary" >Add</Button>
+    <ConfigProvider locale={en_US}>
+           
+       <Button href="/create" type="primary" >ADD NEW TASK</Button>
       
           <PageContainer ghost
-      header={{
-        title: 'test',
-      }}>
+      // header={{
+      //   title: 'test',
+      >
       <ProTable
       
         locale={en_US}
-        headerTitle="Todo-List"
+        // headerTitle="Todo-List"
         columns={columns}
         rowKey="index"
         pagination={true}
         dataSource={data}
         search={false}
-        // style={{
-        //     textAlign:"right"
-        // }}
+        style={{
+            textAlign:"right"
+        }}
         
         toolBarRender={() => [
             <Button
@@ -311,10 +333,7 @@ const Todos = () => {
     </Content>
 
     
-    <Footer style={{
-        backgroundColor:"darkblue",
-        color:"white"
-    }}>We love Data</Footer>
+
     </Layout>
 
   );
