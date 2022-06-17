@@ -1,11 +1,12 @@
 import React from 'react';
-import { useLocation, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 import EditTask from './editTask';
 import Todos from './Todos';
 
 const wrapperEdit = () => {
 const paramsTask = useParams();
-return <EditTask params={paramsTask} />
+const history = useNavigate()
+return <EditTask params={paramsTask} history={history} />
 }
 
 export default wrapperEdit;

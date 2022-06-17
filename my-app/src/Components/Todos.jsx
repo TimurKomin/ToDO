@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import Pagination from "./Pagination";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { http } from "../api/http";
-import { notification, message, Button, Checkbox, ConfigProvider } from "antd";
-import en_US from 'antd/lib/locale/en_US';
-// import "antd/dist/antd.css";
-import {  ProColumns, ProForm, ProFormText } from "@ant-design/pro-form";
+import { notification, message, Button, Checkbox, ConfigProvider, Row } from "antd";
+import en_US from "antd/lib/locale/en_US";
+import { ProColumns, ProForm, ProFormText } from "@ant-design/pro-form";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import ProTable from "@ant-design/pro-table";
 import Search from "antd/lib/transfer/search";
 import { withRouter } from "react-router";
 import { PageContainer } from "@ant-design/pro-layout";
+import "antd/dist/antd.css";
+import moment from "moment";
 
-// import InputTodo from "./InputTodo";
 import { Layout } from "antd";
-const {Header, Footer, Sider, Content} = Layout
+import Column from "antd/lib/table/Column";
+const { Header, Footer, Sider, Content } = Layout;
 
 const Todos = (props) => {
   console.log(props);
@@ -40,6 +35,11 @@ const Todos = (props) => {
       const response = await http.get(
         `/getTask?page=${currentPage}&order=${sortTasks}&allPerPage=${allPerPage}&filterBy=${filter}`
       );
+      console.log(currentPage, allPerPage, response.data.rows);
+      const array = response.data.rows.map((item) => {
+        return { ...item, createdAt: item.createdAt };
+      });
+      console.log(array);
       setTodos(response.data.rows);
       setTotalPage(Math.ceil(response.data.count));
       setLength(response.data.count);
@@ -83,7 +83,6 @@ const Todos = (props) => {
       console.log(err.response.data);
 
       notification.error({ message: err.response.data });
-      // message("Задача не добавлена")
       console.log("Задача не добавлена");
     }
   };
@@ -122,8 +121,6 @@ const Todos = (props) => {
   const addTodoHandler = () => {
     taskCraete();
     setInputValue("");
-    // sortTasks === 'desc' ? setCurrentPage(0) : setCurrentPage(Math.floor(length/5))
-    // getTodos()
   };
 
   const sortByDate = () => {
@@ -186,20 +183,21 @@ const Todos = (props) => {
         setCurrentPage(currentPage - 1);
       }
     } catch (err) {
-      // alert(err);
       console.log(err);
     }
   };
-
+  const onShowSizeChangeTask = (current, page) => {
+    setAllPerPage(page);
+    setCurrentPage(current - 1);
+  };
   const columns: ProColumns[] = [
     {
       title: "check",
       dataIndex: "done",
       key: "check",
       width: 60,
-      align :"center",
+      align: "center",
       render: (done, data) => {
-        // console.log(e)
         return (
           <Checkbox
             key={data.uuid}
@@ -213,129 +211,141 @@ const Todos = (props) => {
       title: "title",
       dataIndex: "title",
       width: 300,
-      align:"center"
+      align: "center",
     },
     {
       title: "date",
       dataIndex: "createdAt",
       width: 200,
-      align:"center"
-    }, 
-    {
-      title: "Editing",
-      dataIndex: "title",
-      width: 60,
-      align:"center",
-      render: (done, data) => (
-        <Link
-            style={{ display: "block", margin: "1rem 0" }}
-            state={ {id:`${data.uuid}`} }
-            to={{ pathname: `edit/${data.uuid}`}}
-             
-            key={`${data.uuid}`}
-          >
-            <EditOutlined /> 
-          </Link>
-        // <Button type="primary" >
-        //   {/* <Link></Link> */}
-        //   
-           
-        // </Button>
-      ),
+      align: "center",
+      render: (date) => {
+        const dateCreate = new Date(date);
+        const dateChange = moment(dateCreate);
+        const stringDate = String(dateChange._i);
+        const renderDate = stringDate.substring(0, 24);
+        return renderDate;
+      },
     },
+    // {
+    //   title: "Editing",
+    //   dataIndex: "title",
+    //   width: 60,
+    //   align: "center",
+    //   render: (done, data) => (
+    //     <Link
+    //       style={{ display: "block", margin: "1rem 0" }}
+    //       state={{ id: `${data.uuid}` }}
+    //       to={{ pathname: `edit/${data.uuid}` }}
+    //       key={`${data.uuid}`}
+    //     >
+    //       <EditOutlined />
+    //     </Link>
+    //   ),
+    // },
     {
-      title: "delete",
+      title: "Edit | Delete",
       dataIndex: "done",
-      width: 60,
-      align:"center",
+      width: 200,
+      align: "center",
       render: (done, data) => (
+        <Row style={{
+            display: "flex",
+            justifyContent:"space-between"
+        }}>
+        <Link
+        style={{ display: "block", margin: "1rem 0" }}
+        state={{ id: `${data.uuid}` }}
+        to={{ pathname: `edit/${data.uuid}` }}
+        key={`${data.uuid}`}
+      >
+        <EditOutlined />
+      </Link> 
+
         <Button onClick={(e) => deleteTask(data.uuid)} type="danger">
           <DeleteOutlined />
         </Button>
+        </Row>
       ),
     },
   ];
   const data = todos;
   return (
-      
-       <Layout>     
-     
+    <Layout>
       <Content>
-       
-    <ConfigProvider locale={en_US}>
-           
-       <Button href="/create" type="primary" >ADD NEW TASK</Button>
-      
-          <PageContainer ghost
-      // header={{
-      //   title: 'test',
-      >
-      <ProTable
-      
-        locale={en_US}
-        // headerTitle="Todo-List"
-        columns={columns}
-        rowKey="index"
-        pagination={true}
-        dataSource={data}
-        search={false}
-        style={{
-            textAlign:"right"
-        }}
-        
-        toolBarRender={() => [
-            <Button
-            size={filter === "undone" ? "middle" : "small"}
-            onClick={() => {
-              setFilter("undone");
-              setCurrentPage(0);
+        <ConfigProvider locale={en_US}>
+          <PageContainer
+            ghost
+            style={{
+              minHeight: "88vh",
             }}
-            key="primary"
-            type="primary"
           >
-            Active
-          </Button>,
-          <Button
-            size={filter === "done" ? "middle" : "small"}
-            onClick={() => {
-              setFilter("done");
-              setCurrentPage(0);
-            }}
-            key="primary"
-            type="primary"
-          >
-            Done
-          </Button>,
-          <Button
-            size={filter === "" ? "middle" : "small"}
-            onClick={() => {
-              setFilter("");
-              setCurrentPage(0);
-            }}
-            key="primary"
-            type="primary"
-          >
-            All
-          </Button>,
-            <Button
-            type="primary"
-            body={statusFilter}
-            onClick={sortByDate}
-            >
-            {statusFilter}
-          </Button>,
-          ]}
-      />
-      
-      </PageContainer>
-
-    </ConfigProvider>
-    </Content>
-
-    
-
+            <ProTable
+              locale={en_US}
+              columns={columns}
+              rowKey="index"
+              pagination={false}
+              pagination={{
+                total: totalPage,
+                defaultPageSize: 10,
+                showSizeChanger: true,
+                onChange: onShowSizeChangeTask,
+              }}
+              dataSource={data}
+              search={false}
+              style={{
+                textAlign: "right",
+              }}
+              toolBarRender={() => [
+                <Button
+                  size={filter === "undone" ? "middle" : "small"}
+                  onClick={() => {
+                    setFilter("undone");
+                    setCurrentPage(0);
+                  }}
+                  key="primary"
+                  type="primary"
+                >
+                  Active
+                </Button>,
+                <Button
+                  size={filter === "done" ? "middle" : "small"}
+                  onClick={() => {
+                    setFilter("done");
+                    setCurrentPage(0);
+                  }}
+                  key="primary"
+                  type="primary"
+                >
+                  Done
+                </Button>,
+                <Button
+                  size={filter === "" ? "middle" : "small"}
+                  onClick={() => {
+                    setFilter("");
+                    setCurrentPage(0);
+                  }}
+                  key="primary"
+                  type="primary"
+                >
+                  All
+                </Button>,
+                <Button
+                  type="dashed"
+                  size="large"
+                  style={{
+                    color: "skyblue",
+                  }}
+                  body={statusFilter}
+                  onClick={sortByDate}
+                >
+                  {statusFilter}
+                </Button>,
+              ]}
+            />
+          </PageContainer>
+        </ConfigProvider>
+      </Content>
     </Layout>
-
   );
 };
 export default Todos;
