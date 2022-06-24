@@ -1,7 +1,7 @@
 import { DefaultHeader, ProForm } from "@ant-design/pro-form";
 import React, { Component, ReactNode } from "react";
 import { ProFormText } from "@ant-design/pro-form";
-import { Button, Checkbox, Col, ConfigProvider, Row } from "antd";
+import { notification, message, Button, Checkbox, Col, ConfigProvider, Row } from "antd";
 import en_US from "antd/lib/locale/en_US";
 import Todos from "./Todos";
 import { http } from "../api/http";
@@ -22,13 +22,16 @@ class EditTask extends Component {
     try {
       const res = await http.patch(`/patchTask/?uuid=${this.props.params.id}`, {
         title: this.state.inputValue,
-        done: !this.state.checkBox
+        done: this.state.checkBox
       });
-      console.log(res.status);
+      console.log(res);
+    
       if (res.status === 200) {
         // window.location.replace("/");
         this.props.history("/");
-      }
+      
+    }
+    this.getTodos()
     } catch (err) {
       console.log("asdasdsdas", err);
     }
@@ -45,12 +48,10 @@ class EditTask extends Component {
       const res = response.data.rows.find(
         (item) => item.uuid === this.props.params.id
       );
-      console.log(res);
-      console.log(this.props.params.id);
       this.setState({ inputValue: res.title });
       this.setState({checkBox: res.done})
     } catch (err) {
-      console.log("asdasddas", err);
+      notification.error({message: err.response.data})
     }
   };
 
@@ -63,6 +64,7 @@ class EditTask extends Component {
 
   render() {
     const a = window.location;
+    console.log(this.props);
     // console.log(this.props);
     return (
       <div
@@ -73,19 +75,21 @@ class EditTask extends Component {
         <ConfigProvider locale={en_US}>
           <PageContainer
             style={{
+              width: "90%",
               marginLeft: 30,
               display: "grid",
               justifyContent: "space-between",
             }}
             title="Task Edit"
-          >
+          ><span style={{
+            color:"skyblue", marginRight: 10}}>DONE</span>
             <Checkbox 
-            onChange={() => this.changeTask()}
+            onChange={() => this.setState({checkBox: !this.state.checkBox})}
              checked={this.state.checkBox}
              />
             <ProForm
               style={{
-                width: 800,
+                width: "110%",
                 minHeight: "87vh",
               }}
               submitter={{
@@ -119,6 +123,12 @@ class EditTask extends Component {
               }}
             >
               <ProFormText
+              
+              label={ 
+                "TASK NAME"}
+              width={
+              "140%"
+              }
                 rules={[
                   {
                     validator(_, value) {

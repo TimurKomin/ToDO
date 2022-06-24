@@ -3,6 +3,7 @@ import Todos from "./Todos";
 import CreateTask from "./createTask";
 import EditTask from "./editTask";
 import WrapperEdit from "./wrapper";
+import { ApolloConsumer, ApolloProvider } from 'react-apollo';
 import { Layout, Menu } from "antd";
 import {
   BrowserRouter,
@@ -13,6 +14,7 @@ import {
   useRouteMatch,
   useParams,
 } from "react-router-dom";
+
 
 const { Header, Footer, Sider, Content } = Layout;
 const items = [
@@ -50,9 +52,11 @@ export default function MyRouter() {
       </Header>
 
       <BrowserRouter>
-        <Routes>
+        <Routes >
           <Route path="/" element={<Todos />} />
-          <Route path="/create" element={<CreateTask />} />
+          
+          <Route path="/create" element={<CreateTask />}/>
+          
           <Route path="/edit/:id" element={<WrapperEdit />} />
         </Routes>
       </BrowserRouter>

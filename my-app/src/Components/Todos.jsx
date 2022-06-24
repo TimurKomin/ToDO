@@ -9,15 +9,18 @@ import ProTable from "@ant-design/pro-table";
 import Search from "antd/lib/transfer/search";
 import { withRouter } from "react-router";
 import { PageContainer } from "@ant-design/pro-layout";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
 import "antd/dist/antd.css";
 import moment from "moment";
+import { getTasks } from "./schema";
 
 import { Layout } from "antd";
 import Column from "antd/lib/table/Column";
+
 const { Header, Footer, Sider, Content } = Layout;
 
 const Todos = (props) => {
-  console.log(props);
   const [todos, setTodos] = useState([]);
   const [check, setCheck] = useState(true);
   const [inputValue, setInputValue] = useState("");
@@ -29,24 +32,42 @@ const Todos = (props) => {
   const [countButtons, setCountButtons] = useState([]);
   const [length, setLength] = useState(0);
   const [allPerPage, setAllPerPage] = useState(10);
-
-  const getTodos = async () => {
-    try {
-      const response = await http.get(
-        `/getTask?page=${currentPage}&order=${sortTasks}&allPerPage=${allPerPage}&filterBy=${filter}`
-      );
-      console.log(currentPage, allPerPage, response.data.rows);
-      const array = response.data.rows.map((item) => {
-        return { ...item, createdAt: item.createdAt };
-      });
-      console.log(array);
-      setTodos(response.data.rows);
-      setTotalPage(Math.ceil(response.data.count));
-      setLength(response.data.count);
-    } catch (err) {
-      console.log(err);
+  const { isLoading, isError, data, error } = useQuery(getTasks, {
+    variables: {
+      filterBy: filter,
+      order: sortTasks,
+      allPerPage,
+      page: currentPage
     }
-  };
+  })
+
+  useEffect(() => {
+    if(data) {
+      setTodos(data.tasks.task); setTotalPage(data.tasks.count)
+    }
+  },[data])
+  console.log(data)
+  // console.log(data.tasks)
+  // const getTodos = async () => {
+
+  //   try {
+      
+      
+  //     console.log(data.tasks)
+  //     const response = await http.get(
+  //       `/getTask?page=${currentPage}&order=${sortTasks}&allPerPage=${allPerPage}&filterBy=${filter}`
+  //     );
+  //     const array = response.data.rows.map((item) => {
+  //       return { ...item, createdAt: item.createdAt };
+  //     });
+  //     console.log(response)
+  //     setTodos(data.tasks);
+  //     setTotalPage(Math.ceil(response.data.count));
+  //     setLength(response.data.count);
+  //   } catch (err) {
+  //     notification.error({message:"Ошибка Сервера"})
+  //   }
+  // };
 
   useEffect(() => {
     if (todos.length > 0) {
@@ -62,9 +83,9 @@ const Todos = (props) => {
     }
   }, [length]);
 
-  useEffect(() => {
-    getTodos();
-  }, [currentPage, filter, sortTasks, allPerPage]);
+  // useEffect(() => {
+  //   getTodos();
+  // }, [currentPage, filter, sortTasks, allPerPage]);
 
   useEffect(() => {
     setCountButtons([...new Array(totalPage).keys()]);
@@ -78,7 +99,8 @@ const Todos = (props) => {
       sortTasks === "desc"
         ? setCurrentPage(0)
         : setCurrentPage(Math.floor(length / 5));
-      getTodos();
+      // getTodos();
+      notification.success({ message: "Задача добавлена" });
     } catch (err) {
       console.log(err.response.data);
 
@@ -91,14 +113,16 @@ const Todos = (props) => {
     try {
       await http.delete(`/deleteTask/?uuid=${uuid}`);
       if (todos.length > 0) {
-        await getTodos();
+        // await getTodos();
       } else {
         if (currentPage !== 0) {
           setCurrentPage(currentPage - 1);
         }
       }
+      notification.success({ message: "Задача удалена" });
+
     } catch (err) {
-      console.log(err);
+      notification.error({ message: "невозможно удалить" });
     }
   };
 
@@ -141,7 +165,7 @@ const Todos = (props) => {
       );
       await Promise.all(arrProm);
       if (filter === "" || currentPage === 0) {
-        await getTodos();
+        // await getTodos();
       } else if (currentPage !== 0) {
         setCurrentPage(currentPage - 1);
       }
@@ -160,7 +184,7 @@ const Todos = (props) => {
         if (currentPage > 0 && currentPage === totalPage - 1) {
           setCurrentPage((prev) => prev > 0 && prev - 1);
         } else if (currentPage === 0 || currentPage !== totalPage - 1) {
-          await getTodos();
+          // await getTodos();
         }
       } catch (err) {
         console.log(err);
@@ -178,7 +202,7 @@ const Todos = (props) => {
       notification.success({ message: "task checked" });
 
       if (todos.length > 0) {
-        await getTodos();
+        // await getTodos();
       } else {
         setCurrentPage(currentPage - 1);
       }
@@ -215,42 +239,26 @@ const Todos = (props) => {
     },
     {
       title: "date",
-      dataIndex: "createdAt",
+      dataIndex: "created_at",
       width: 200,
       align: "center",
-      render: (date) => {
-        const dateCreate = new Date(date);
+      render: (created_at) => {
+        const dateCreate = new Date(+created_at);
         const dateChange = moment(dateCreate);
         const stringDate = String(dateChange._i);
         const renderDate = stringDate.substring(0, 24);
         return renderDate;
       },
     },
-    // {
-    //   title: "Editing",
-    //   dataIndex: "title",
-    //   width: 60,
-    //   align: "center",
-    //   render: (done, data) => (
-    //     <Link
-    //       style={{ display: "block", margin: "1rem 0" }}
-    //       state={{ id: `${data.uuid}` }}
-    //       to={{ pathname: `edit/${data.uuid}` }}
-    //       key={`${data.uuid}`}
-    //     >
-    //       <EditOutlined />
-    //     </Link>
-    //   ),
-    // },
     {
       title: "Edit | Delete",
       dataIndex: "done",
-      width: 200,
+      width: 100,
       align: "center",
       render: (done, data) => (
         <Row style={{
-            display: "flex",
-            justifyContent:"space-between"
+            display: "grid",
+            justifyContent:"center"
         }}>
         <Link
         style={{ display: "block", margin: "1rem 0" }}
@@ -268,7 +276,7 @@ const Todos = (props) => {
       ),
     },
   ];
-  const data = todos;
+  const dataArr = todos;
   return (
     <Layout>
       <Content>
@@ -280,6 +288,10 @@ const Todos = (props) => {
             }}
           >
             <ProTable
+              options={{
+                // reload:  () => getTodos() | true,
+              }
+              }
               locale={en_US}
               columns={columns}
               rowKey="index"
@@ -290,7 +302,7 @@ const Todos = (props) => {
                 showSizeChanger: true,
                 onChange: onShowSizeChangeTask,
               }}
-              dataSource={data}
+              dataSource={dataArr}
               search={false}
               style={{
                 textAlign: "right",

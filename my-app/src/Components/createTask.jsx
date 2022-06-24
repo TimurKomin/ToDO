@@ -1,12 +1,13 @@
 import ProForm, { DefaultHeader } from "@ant-design/pro-form";
 import React, { Component, ReactNode } from "react";
 import { ProFormText } from "@ant-design/pro-form";
-import { Button, Col, ConfigProvider, Row } from "antd";
+import { notification, message, Button, Col, ConfigProvider, Row } from "antd";
 import en_US from "antd/lib/locale/en_US";
 import Todos from "./Todos";
 import { http } from "../api/http";
 import { PageContainer } from "@ant-design/pro-layout";
 import { Link } from "react-router-dom";
+// import { withApollo } from "react-apollo";
 class CreateTask extends Component {
     constructor(props) {
         super(props);
@@ -25,10 +26,10 @@ class CreateTask extends Component {
             if (newTask.title !== "") {
             const res = await http.post(`/postTask`, newTask);
             }
-            console.log();
+            notification.success({ message: "Задача добавлена" });
+
         } catch (err) {
-            console.log(err.response.data);
-            console.log("Задача не добавлена");
+            notification.error({ message: err.response.data });
         }
         }
     };
@@ -39,6 +40,7 @@ class CreateTask extends Component {
     };
 
     render() {
+        // console.log(this.props)
         return (
         <ConfigProvider locale={en_US}>
             <PageContainer
