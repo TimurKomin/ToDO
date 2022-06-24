@@ -46,28 +46,7 @@ const Todos = (props) => {
       setTodos(data.tasks.task); setTotalPage(data.tasks.count)
     }
   },[data])
-  console.log(data)
-  // console.log(data.tasks)
-  // const getTodos = async () => {
 
-  //   try {
-      
-      
-  //     console.log(data.tasks)
-  //     const response = await http.get(
-  //       `/getTask?page=${currentPage}&order=${sortTasks}&allPerPage=${allPerPage}&filterBy=${filter}`
-  //     );
-  //     const array = response.data.rows.map((item) => {
-  //       return { ...item, createdAt: item.createdAt };
-  //     });
-  //     console.log(response)
-  //     setTodos(data.tasks);
-  //     setTotalPage(Math.ceil(response.data.count));
-  //     setLength(response.data.count);
-  //   } catch (err) {
-  //     notification.error({message:"Ошибка Сервера"})
-  //   }
-  // };
 
   useEffect(() => {
     if (todos.length > 0) {
@@ -105,7 +84,6 @@ const Todos = (props) => {
       console.log(err.response.data);
 
       notification.error({ message: err.response.data });
-      console.log("Задача не добавлена");
     }
   };
 
@@ -193,7 +171,7 @@ const Todos = (props) => {
   };
 
   const checkTask = async (e, uuid) => {
-    console.log(e.target);
+   
     const done = e.target.checked;
     try {
       const resp = await http.patch(`/patchTask/?uuid=${uuid}`, {
