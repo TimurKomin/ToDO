@@ -4,7 +4,7 @@ import { ApolloProvider } from "@apollo/react-hooks";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { ApolloClient } from "@apollo/react-hooks";
-import { InMemoryCache } from "apollo-cache-inmemory";
+import { InMemoryCache } from "@apollo/react-hooks";
 import { createHttpLink, HttpLink } from "apollo-link-http";
 
 const linkinpark =  createHttpLink({

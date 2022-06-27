@@ -25,10 +25,46 @@ export const getTasks = gql`
 ` 
 export const postTask = gql `
     mutation addTask (
-        $title: String
-        ){
+        $title: String!,
+        $done: Boolean
+        ) {
             addTask(
-                title:$title
+                title:$title,
+                done:$done
             )
+        {
+            title,
+            
         }
+    }
+`
+export const editionTask = gql `
+    mutation changeTask (
+        $title: String,
+        $done: Boolean
+        $uuid: String!
+        ) {
+            changeTask(
+                title:$title,
+                done:$done
+                uuid:$uuid
+            )
+        {
+            uuid,
+            
+        }
+    }
+`
+export const removeTask = gql `
+    mutation removeTask (
+        $uuid: String!
+        ) {
+            removeTask(
+                uuid:$uuid
+            )
+        {
+            uuid,
+            
+        }
+    }
 `
