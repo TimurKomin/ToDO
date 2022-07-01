@@ -1,9 +1,8 @@
-import { useApolloClient, useMutation } from '@apollo/react-hooks';
-import React, { useEffect, useState } from 'react';
+import { useApolloClient } from '@apollo/react-hooks';
+import React from 'react';
 import { useLocation, useNavigate, useParams } from "react-router";
 import CreateTask from './createTask';
 import EditTask from './editTask';
-import Todos from './Todos';
 
 const wrapperEdit = () => {
 const paramsTask = useParams();

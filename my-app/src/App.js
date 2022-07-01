@@ -1,6 +1,4 @@
-import React, {useState} from "react";
-import { ReactDOM } from "react";
-import Todos from "./Components/Todos";
+import React from "react";
 import Rout from "./Components/Routes"
 
 

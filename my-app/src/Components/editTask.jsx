@@ -1,23 +1,16 @@
-import { DefaultHeader, ProForm, ProFormCheckbox, } from "@ant-design/pro-form";
-import React, { Component, ReactNode } from "react";
+import { ProForm, ProFormCheckbox, } from "@ant-design/pro-form";
+import React, { Component } from "react";
 import { ProFormText } from "@ant-design/pro-form";
 import {
   notification,
-  message,
   Button,
-  Checkbox,
   Col,
   ConfigProvider,
   Row,
 } from "antd";
 import en_US from "antd/lib/locale/en_US";
-import Todos from "./Todos";
-import { http } from "../api/http";
-import { getValue } from "@testing-library/user-event/dist/utils";
 import { PageContainer } from "@ant-design/pro-layout";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { editionTask } from "./schema";
-import FormItem from "antd/lib/form/FormItem";
 const formRef = React.createRef();
 class EditTask extends Component {
   constructor(props) {
@@ -31,7 +24,7 @@ class EditTask extends Component {
   changeTask = async (proper) => {
 
     try {
-      const { data, error } = await this.props.client.mutate({
+      await this.props.client.mutate({
         mutation: editionTask,
         variables: {
           title: proper.title,

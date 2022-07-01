@@ -1,44 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { http } from "../api/http";
+import { Link } from "react-router-dom";
 import {
   notification,
-  message,
   Button,
   Checkbox,
   ConfigProvider,
   Row,
 } from "antd";
 import en_US from "antd/lib/locale/en_US";
-import { ProColumns, ProForm, ProFormText } from "@ant-design/pro-form";
+import { ProColumns } from "@ant-design/pro-form";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import ProTable from "@ant-design/pro-table";
-import Search from "antd/lib/transfer/search";
-import { withRouter } from "react-router";
 import { PageContainer } from "@ant-design/pro-layout";
-import { gql } from "apollo-boost";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import "antd/dist/antd.css";
 import moment from "moment";
 import { editionTask, getTasks, removeTask } from "./schema";
 import { Layout } from "antd";
-import Column from "antd/lib/table/Column";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 
 const Todos = (props) => {
   const [todos, setTodos] = useState([]);
-  const [check, setCheck] = useState(true);
-  const [inputValue, setInputValue] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
   const [filter, setFilter] = useState("");
   const [sortTasks, setSortTask] = useState("asc");
   const [totalPage, setTotalPage] = useState(0);
   const [statusFilter, setStatusFilter] = useState("OLD");
-  const [countButtons, setCountButtons] = useState([]);
-  const [length, setLength] = useState(0);
   const [allPerPage, setAllPerPage] = useState(10);
-  const { isLoading, isError, data, error, refetch } = useQuery(getTasks, {
+  const { data, refetch } = useQuery(getTasks, {
     variables: {
       filterBy: filter,
       order: sortTasks,
@@ -46,8 +36,8 @@ const Todos = (props) => {
       page: currentPage,
     },
   });
-  const [removeTaskMutation, { data: removeData, error: remErr }] = useMutation(removeTask);
-  const [updateTask, { data: checkData, error: checkErr }] =
+  const [removeTaskMutation] = useMutation(removeTask);
+  const [updateTask, { error: checkErr }] =
     useMutation(editionTask);
   useEffect(() => {
     if (data) {
@@ -56,28 +46,17 @@ const Todos = (props) => {
     }
   }, [data]);
 
-  useEffect(() => {
-    if (todos.length > 0) {
-      const isChecked = todos.every(({ done }) => done);
-      setCheck(isChecked);
-    }
-  }, [todos]);
 
   useEffect(() => {
     if (todos.length === 0 && currentPage > 0) {
       const page = currentPage - 1;
       setCurrentPage(page);
     }
-  }, [length]);
+  }, [todos.length]);
 useEffect(() => {
   refetch()
 },[todos])
 
-  useEffect(() => {
-    setCountButtons([...new Array(totalPage).keys()]);
-  }, [totalPage, todos]);
-
-  const selectPage = (e) => setCurrentPage(Number(e.target.id));
 
 
 
@@ -206,7 +185,6 @@ useEffect(() => {
               locale={en_US}
               columns={columns}
               rowKey="index"
-              pagination={false}
               pagination={{
                 total: totalPage,
                 defaultPageSize: 10,

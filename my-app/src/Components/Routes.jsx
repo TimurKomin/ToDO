@@ -1,21 +1,14 @@
 import React from "react";
 import Todos from "./Todos";
-import CreateTask from "./createTask";
-import EditTask from "./editTask";
 import WrapperEdit from "./wrapper";
-import { ApolloConsumer, ApolloProvider } from "react-apollo";
 import { Layout, Menu } from "antd";
 import {
   BrowserRouter,
-  Switch,
   Routes,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams,
+  Route
 } from "react-router-dom";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 const items = [
   {
     label: "",
